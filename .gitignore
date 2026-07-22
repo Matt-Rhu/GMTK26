@@ -99,14 +99,6 @@ fmod_editor.log
 /FMOD/.cache/
 *.reb
 
-Assets/Import/Sprites/DenseRain.reb.meta
-
-Assets/Import/Sprites/FarRain.reb.meta
-
-Assets/Script/UI/Folder.DotSettings.user.meta
-
 *.blend1
 
 *.psd
-
-Assets/Import/FlameMesh/FlameMesh.blend1.meta
