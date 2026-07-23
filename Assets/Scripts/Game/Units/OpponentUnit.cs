@@ -10,12 +10,17 @@ public class OpponentUnit : UnitBase
     //private SpriteRenderer spriteRenderer;
 
     [SerializeField] private float targetRefreshRate = 0.5f;
+
+    public Transform target;
     
     private float t;
 
 
     protected override void ActiveBehaviour()
     {
+        if (hasBall) 
+            GameManager.instance.Lose();
+        
         base.ActiveBehaviour();
 
         t += Time.deltaTime / targetRefreshRate;
@@ -41,24 +46,40 @@ public class OpponentUnit : UnitBase
 
     private Vector3 PresseurTarget()
     {
-        return new Vector3();
+        return ClosestPlayerUnit();
     }
     
     private Vector3 ToutoutTarget()
     {
-        return new Vector3();
+        return Ball.instance.transform.position;
     }
 
     private Vector3 IntercepteurTarget()
     {
-        return new Vector3();
+        return Vector3.Lerp(Ball.instance.transform.position, ClosestPlayerUnit(), 0.5f);
     }
 
     private Vector3 SentinelleTarget()
     {
-        return new Vector3();
+        return target.position;
     }
-    
+
+
+    private Vector3 ClosestPlayerUnit()
+    {
+        float shortestDistance = Mathf.Infinity;
+        Vector3 closest = transform.position;
+        Collider[] results = new Collider[10];
+        Physics.OverlapSphereNonAlloc(transform.position, 100, results, LayerMask.NameToLayer("PlayerUnit"));
+        foreach (Collider c in results)
+        {
+            float dist = Vector3.Distance(transform.position, c.transform.position);
+            if (!(dist < shortestDistance)) continue;
+            shortestDistance = dist;
+            closest = c.transform.position;
+        }
+        return closest;
+    }
     
     protected override void OnDrawGizmosSelected()
     {

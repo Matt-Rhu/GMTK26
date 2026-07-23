@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public bool TacticalPause { get; private set; }
+    public bool OutOfTime { get; private set; }
     public float RemainingTime { get; private set; }
     public int PlayerScore { get; private set; }
     public int OpponentScore { get; private set; }
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public delegate void SimpleEvent();
     public static event SimpleEvent OnLose;
     public static event SimpleEvent OnWin;
+    
     
     [Header("Game Settings")] 
     [SerializeField] private float allocatedTime = 30;
@@ -41,7 +43,11 @@ public class GameManager : MonoBehaviour
         RemainingTime -= Time.deltaTime;
         RemainingTime = Mathf.Clamp(RemainingTime, 0, Mathf.Infinity);
         if (RemainingTime <= 0)
+        {
+            OutOfTime = true;
             Lose();
+            //TODO: will need to cleanup the timeout so units and the player can't act when it hits 0, but it's not a defeat until the ball stops moving
+        }
     }
 
     public void AddScore(int amount)
@@ -59,10 +65,12 @@ public class GameManager : MonoBehaviour
     private void Win()
     { 
         OnWin?.Invoke();  
+        Time.timeScale = 0;
     }
 
     public void Lose()
     {
         OnLose?.Invoke();
+        Time.timeScale = 0;
     }
 }

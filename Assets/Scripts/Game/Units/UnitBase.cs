@@ -14,6 +14,8 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (GameManager.instance.OutOfTime) return;
+        
         if (GameManager.instance.TacticalPause) 
             TacticalPauseBehaviour();
         else
@@ -23,7 +25,7 @@ public abstract class UnitBase : MonoBehaviour
     
     protected virtual void ActiveBehaviour()
     {
-        if (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        if (Vector3.Distance(transform.position, targetPos) > zoneRadius * 0.5f)
             GoToTarget();
         else
             IdleAtTarget();
@@ -31,6 +33,7 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void GoToTarget()
     {
+        //TODO: movement is extremely stiff for now, probably would need to accelerate and decelerate, and lerp the target direction so they don't do a hard turn after a target refresh
         transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
     }
 
