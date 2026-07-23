@@ -28,7 +28,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             ""id"": ""92f4a085-73fb-456e-8781-38a2d2523e4a"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""ToggleTacticalPause"",
                     ""type"": ""Button"",
                     ""id"": ""6f7cc786-045e-4086-b3d4-441d7dae850d"",
                     ""expectedControlType"": ""Button"",
@@ -41,11 +41,11 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a0dae8fc-e39b-4d90-89e3-c44af7c9d656"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""ToggleTacticalPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -56,7 +56,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Newaction = m_Gameplay.FindAction("New action", throwIfNotFound: true);
+        m_Gameplay_ToggleTacticalPause = m_Gameplay.FindAction("ToggleTacticalPause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -118,12 +118,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
-    private readonly InputAction m_Gameplay_Newaction;
+    private readonly InputAction m_Gameplay_ToggleTacticalPause;
     public struct GameplayActions
     {
         private @InputMap m_Wrapper;
         public GameplayActions(@InputMap wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Gameplay_Newaction;
+        public InputAction @ToggleTacticalPause => m_Wrapper.m_Gameplay_ToggleTacticalPause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -133,16 +133,16 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @ToggleTacticalPause.started += instance.OnToggleTacticalPause;
+            @ToggleTacticalPause.performed += instance.OnToggleTacticalPause;
+            @ToggleTacticalPause.canceled += instance.OnToggleTacticalPause;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @ToggleTacticalPause.started -= instance.OnToggleTacticalPause;
+            @ToggleTacticalPause.performed -= instance.OnToggleTacticalPause;
+            @ToggleTacticalPause.canceled -= instance.OnToggleTacticalPause;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -162,6 +162,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IGameplayActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnToggleTacticalPause(InputAction.CallbackContext context);
     }
 }

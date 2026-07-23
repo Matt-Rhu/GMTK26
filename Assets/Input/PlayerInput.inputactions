@@ -6,7 +6,7 @@
             "id": "92f4a085-73fb-456e-8781-38a2d2523e4a",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "ToggleTacticalPause",
                     "type": "Button",
                     "id": "6f7cc786-045e-4086-b3d4-441d7dae850d",
                     "expectedControlType": "Button",
@@ -19,11 +19,11 @@
                 {
                     "name": "",
                     "id": "a0dae8fc-e39b-4d90-89e3-c44af7c9d656",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "ToggleTacticalPause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
