@@ -49,7 +49,7 @@ public abstract class UnitBase : MonoBehaviour
     
     protected bool BallInZone()
     {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, new Collider[5], LayerMask.NameToLayer("Ball"));
+        int count = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, new Collider[1], LayerMask.NameToLayer("Ball"));
         return count > 0;
     }
 
