@@ -73,10 +73,13 @@ public class OpponentUnit : UnitBase
         Physics.OverlapSphereNonAlloc(transform.position, 100, results, LayerMask.NameToLayer("PlayerUnit"));
         foreach (Collider c in results)
         {
-            float dist = Vector3.Distance(transform.position, c.transform.position);
-            if (!(dist < shortestDistance)) continue;
-            shortestDistance = dist;
-            closest = c.transform.position;
+            if (c != null) {
+                float dist = Vector3.Distance(transform.position, c.transform.position);
+                if (!(dist < shortestDistance)) continue;
+                shortestDistance = dist;
+                closest = c.transform.position;
+            }
+            
         }
         return closest;
     }
