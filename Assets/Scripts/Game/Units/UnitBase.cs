@@ -7,8 +7,9 @@ public abstract class UnitBase : MonoBehaviour
 {
     [SerializeField] protected UnitData data;
     [Space] 
-    [SerializeField] protected float zoneRadius;
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float zoneRadius;
+    [SerializeField] protected float ballSeekingRadius = 3;
     
     protected Vector3 targetPos;
     protected bool hasBall;
@@ -85,6 +86,8 @@ public abstract class UnitBase : MonoBehaviour
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, zoneRadius);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, ballSeekingRadius);
     }
 
     [Button]

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,12 +29,15 @@ public class GameManager : MonoBehaviour
     public int inZoneScore = 2;
     public int outZoneScore = 3;
 
+
+    private bool canReload;
     
     
     private void Awake()
     {
         instance = this;
         Inputs.Gameplay.ToggleTacticalPause.performed += _ => ToggleTacticalPause();
+        Inputs.Gameplay.Reload.performed += _ => ReloadScene();
         
         RemainingTime = allocatedTime;
         PlayerScore = playerStartScore;
@@ -67,13 +71,22 @@ public class GameManager : MonoBehaviour
     
     private void Win()
     { 
+        canReload = true;
         OnWin?.Invoke();  
         Time.timeScale = 0;
     }
 
     public void Lose()
     {
+        canReload = true;
         OnLose?.Invoke();
         Time.timeScale = 0;
+    }
+
+    private void ReloadScene()
+    {
+        if (!canReload) return;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
 }

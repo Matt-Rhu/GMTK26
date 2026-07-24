@@ -272,6 +272,8 @@ MonoBehaviour:
   allocatedTime: 30
   playerStartScore: 75
   opponentStartScore: 77
+  inZoneScore: 2
+  outZoneScore: 3
 --- !u!1 &257220674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,12 +1387,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd89999c6a3555438ea9cfd7bcbc150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 290dd977e17ea8546866ca6b67d5cfa5, type: 2}
   zoneRadius: 1
   moveSpeed: 5
-  canGrabBallInStates: 0200000003000000
-  behaviour: 0
   targetRefreshRate: 0.5
-  target: {fileID: 0}
 --- !u!4 &1491588988
 Transform:
   m_ObjectHideFlags: 0
@@ -1622,7 +1622,7 @@ GameObject:
   - component: {fileID: 1852339279}
   - component: {fileID: 1852339278}
   - component: {fileID: 1852339280}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1637,7 +1637,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852339275}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 12.09}
+  m_LocalPosition: {x: 0, y: -0.49, z: 12.09}
   m_LocalScale: {x: 17, y: 17, z: 17}
   m_ConstrainProportionsScale: 1
   m_Children: []

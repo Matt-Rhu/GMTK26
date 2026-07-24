@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Toutout
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  canGrabBallInStates: 
-  isOpponent: 0
-  behaviour: 0
+  canGrabBallInStates: 030000000000000002000000
+  isOpponent: 1
+  behaviour: 1

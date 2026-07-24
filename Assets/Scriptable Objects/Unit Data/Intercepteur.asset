@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Intercepteur
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  canGrabBallInStates: 
-  isOpponent: 0
-  behaviour: 0
+  canGrabBallInStates: 030000000100000002000000
+  isOpponent: 1
+  behaviour: 2

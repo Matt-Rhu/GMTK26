@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Presseur
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  canGrabBallInStates: 
-  isOpponent: 0
+  canGrabBallInStates: 0200000003000000
+  isOpponent: 1
   behaviour: 0
