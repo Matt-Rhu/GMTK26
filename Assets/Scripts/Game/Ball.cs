@@ -61,6 +61,13 @@ public class Ball : MonoBehaviour
 
     private void FreeTravel()
     {
+        // While traveling, check if land in goal.
+        int count = Physics.OverlapSphereNonAlloc(transform.position, 0.1f, new Collider[1], LayerMask.GetMask("Goal"));
+        if (count > 0)
+        {
+            GameManager.instance.Win();
+        }
+
         transform.position += velocity * Time.deltaTime;
         if ((transform.position - targetPosition).magnitude < 0.1)
         {

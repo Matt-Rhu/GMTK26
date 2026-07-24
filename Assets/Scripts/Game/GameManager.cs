@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         TacticalPause = !TacticalPause;
     }
     
-    private void Win()
+    public void Win()
     { 
         canReload = true;
         OnWin?.Invoke();  
