@@ -12,8 +12,8 @@ public class UnitData : ScriptableObject
     [Header("Ball Interaction Settings")]
     public float zoneRadius = 1;
     public float ballSeekingRadius = 2.5f;
-    public Ball.BallState[] canGrabBallInStates;
     public float grabCooldown = 3f;
+    public Ball.BallState[] canGrabBallInStates;
 
     [Header("Opponent Settings")]
     public bool isOpponent = true;

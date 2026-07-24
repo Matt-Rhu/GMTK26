@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
 {
-    [SerializeField] protected UnitData data;
+    [OnChange(nameof(OnDataChanged))] [SerializeField] protected UnitData data;
 
 
     private Vector3 trueTarget;
@@ -19,6 +19,13 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        if (!data)
+        {
+            Debug.LogError($"Unit data for {name} wasn't set!! Violently destroyed it!!!");
+            Destroy(gameObject);
+            return;
+        }
+        
         UpdateSprite();
     }
     
@@ -110,11 +117,18 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void OnDrawGizmosSelected()
     {
+        if (!data) return;
+        
         Gizmos.DrawWireSphere(transform.position, data.zoneRadius);
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, data.ballSeekingRadius);
     }
-    
+
+
+    protected virtual void OnDataChanged()
+    {
+        UpdateSprite();
+    }
 
     [Button]
     protected void UpdateSprite()

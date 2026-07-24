@@ -41,8 +41,6 @@ public class OpponentUnit : UnitBase
         };
     }
     
-    //TODO: we might want an override to target picking where if the ball is idle within a certain radius of the unit, they all go for it
-    
     private Vector3 PresseurTarget()
     {
         return ClosestPlayerUnit();
@@ -87,6 +85,18 @@ public class OpponentUnit : UnitBase
     {
         Gizmos.color = Color.red;
         base.OnDrawGizmosSelected();
+    }
+    
+    protected override void OnDataChanged()
+    {
+        if (!data.isOpponent)
+        {
+            Debug.LogWarning($"Can't have a player unit data on an opponent unit!!");
+            data = null;
+            return;
+        }
+        
+        base.OnDataChanged();
     }
     
     

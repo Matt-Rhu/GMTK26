@@ -1389,10 +1389,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4574574014297714464, guid: ee31672bda4c5b04f8978ff678c76172, type: 3}
-      propertyPath: grabCooldown
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4574574014297714470, guid: ee31672bda4c5b04f8978ff678c76172, type: 3}
       propertyPath: m_Name
       value: PlayerUnit (2)
@@ -1439,10 +1435,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4574574014297714471, guid: ee31672bda4c5b04f8978ff678c76172, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4574574014297714471, guid: ee31672bda4c5b04f8978ff678c76172, type: 3}
-      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
