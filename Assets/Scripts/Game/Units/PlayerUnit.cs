@@ -5,16 +5,6 @@ using UnityEngine;
 
 public class PlayerUnit : UnitBase
 {
-    private void Shoot(Vector3 target)
-    {
-        var scoreValue = IsInScoreZone() ? GameManager.instance.inZoneScore : GameManager.instance.outZoneScore;
-        Ball.instance.Shoot(target, scoreValue);
-    }
-
-    private void Pass()
-    {
-        
-    }
     
     public bool CanThrow()
     {
@@ -23,18 +13,23 @@ public class PlayerUnit : UnitBase
     
 
     [SerializeField] private GameObject selectionFX;
-    public bool holdingBall;
 
-    public enum Command
+    public enum ThrowCommand
+    {
+        NONE,
+        PASS,
+        SHOOT
+    }
+
+    public enum MoveCommand
     {
         STOP,
-        PASS,
-        SHOOT,
         MOVE_TO
     }
 
-    private Command nextCommand = Command.STOP;
-    private Vector3 nextCommandTargetPosition = Vector3.zero;
+    private ThrowCommand nextThrowCommand = ThrowCommand.NONE;
+    private Vector3 nextThrowTargetPosition = Vector3.zero;
+    private MoveCommand nextMoveCommand = MoveCommand.STOP;
 
     private bool OpponentInZone()
     {
@@ -55,41 +50,46 @@ public class PlayerUnit : UnitBase
     }
 
     
-    private void Start()
+    override
+    protected void Start()
     {
+        base.Start();
         Deselect();
     }
 
-    private void Update()
+    override
+    protected void ActiveBehaviour()
     {
-        base.Update();
-        // Only process PlayerUnit commands when not in tactical pause.
-        if (!GameManager.instance.TacticalPause)
+        TryGrabBall();
+        // Process next throw command.
+        switch (nextThrowCommand)
         {
-            // Process next command.
-            switch (nextCommand)
-            {
-                case Command.MOVE_TO:
-                    ProcessMoveCommand();
-                    break;
-                case Command.PASS:
-                    ProcessPassCommand();
-                    break;
-                case Command.SHOOT:
-                    ProcessShootCommand();
-                    break;
-                case Command.STOP:
-                    // Do nothing.
-                    break;
-            }
-            // Drag the ball if holding it anyway.
-            if (holdingBall)
-            {
-                Ball.instance.transform.position = transform.position;
-            }
+            case ThrowCommand.PASS:
+                ProcessPassCommand();
+                break;
+            case ThrowCommand.SHOOT:
+                ProcessShootCommand();
+                break;
+            case ThrowCommand.NONE:
+                // Do nothing.
+                break;
+        }
+        // Process next move command;
+        switch (nextMoveCommand)
+        {
+            case MoveCommand.MOVE_TO:
+                ProcessMoveCommand();
+                break;
+            case MoveCommand.STOP:
+                IdleAtTarget();
+                break;
+        }
+        // Drag the ball if holding it anyway.
+        if (hasBall)
+        {
+            Ball.instance.transform.position = transform.position;
         }
     }
-
 
     public void Select()
     {
@@ -105,34 +105,55 @@ public class PlayerUnit : UnitBase
 
     public void RegisterStopCommand()
     {
-        nextCommand = Command.STOP;
-        nextCommandTargetPosition = new Vector3(-9999, -9999, -9999);
+        nextMoveCommand = MoveCommand.STOP;
+        targetPos = new Vector3(-9999, -9999, -9999);
     }
 
 
     public void RegisterMoveCommand(Vector3 targetPosition)
     {
-        nextCommand = Command.MOVE_TO;
-        nextCommandTargetPosition = targetPosition;
+        nextMoveCommand = MoveCommand.MOVE_TO;
+        targetPos = targetPosition;
     }
 
 
     public void RegisterPassCommand(Vector3 targetPosition)
     {
-        nextCommand = Command.PASS;
-        nextCommandTargetPosition = targetPosition;
+        nextThrowCommand = ThrowCommand.PASS;
+        nextThrowTargetPosition = targetPosition;
     }
 
 
+    public void RegisterShootCommand(Vector3 targetPosition)
+    {
+        nextThrowCommand = ThrowCommand.SHOOT;
+        nextThrowTargetPosition = targetPosition;
+    }
+
+    public void CancelThrowCommand()
+    {
+        nextThrowCommand = ThrowCommand.NONE;
+        nextThrowTargetPosition = new Vector3(-9999, -9999, -9999);
+    }
+
     private void ProcessMoveCommand()
     {
-        float distanceToTarget = (nextCommandTargetPosition - transform.position).magnitude;
+
+        /*float distanceToTarget = (targetPos - transform.position).magnitude;
         if (distanceToTarget > 1) // If did not reach distination, continue to move toward it.
         {
-            transform.position += (nextCommandTargetPosition - transform.position).normalized * moveSpeed * Time.deltaTime;
+            transform.position += (targetPos - transform.position).normalized * moveSpeed * Time.deltaTime;
         } else // If approximatively reached destination, then stop.
         {
             nextCommand = Command.STOP;
+        }*/
+
+        if (Vector3.Distance(transform.position, targetPos) > zoneRadius * 0.5f)
+        {
+            GoToTarget();
+        } else
+        {
+            nextMoveCommand = MoveCommand.STOP;
         }
     }
 
@@ -140,11 +161,11 @@ public class PlayerUnit : UnitBase
     private void ProcessPassCommand()
     {
         // Always stop after pass.
-        nextCommand = Command.STOP;
-        if (holdingBall)
+        nextThrowCommand = ThrowCommand.NONE;
+        if (hasBall)
         {
-            holdingBall = false;
-            Ball.instance.Pass(nextCommandTargetPosition);
+            hasBall = false;
+            Pass(nextThrowTargetPosition);
         }
     }
 
@@ -152,11 +173,22 @@ public class PlayerUnit : UnitBase
     private void ProcessShootCommand()
     {
         // Always stop after shoot.
-        nextCommand = Command.STOP;
-        if (holdingBall)
+        nextThrowCommand = ThrowCommand.NONE;
+        if (hasBall)
         {
-            holdingBall = false;
-            Ball.instance.Shoot(nextCommandTargetPosition);
+            hasBall = false;
+            Shoot(nextThrowTargetPosition);
         }
+    }
+
+    private void Shoot(Vector3 target)
+    {
+        var scoreValue = IsInScoreZone() ? GameManager.instance.inZoneScore : GameManager.instance.outZoneScore;
+        Ball.instance.Shoot(target, scoreValue);
+    }
+
+    private void Pass(Vector3 target)
+    {
+        Ball.instance.Pass(target);
     }
 }

@@ -47,9 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddbbd286ffe5364785619d6f32f7fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneRadius: 0
-  moveSpeed: 0
+  data: {fileID: 11400000, guid: 09a687d58f9448c4b9f4caad46a10a50, type: 2}
+  moveSpeed: 5
+  zoneRadius: 1
+  ballSeekingRadius: 2.5
   selectionFX: {fileID: 4574574015156958339}
+  holdingBall: 0
 --- !u!135 &4574574014297714465
 SphereCollider:
   m_ObjectHideFlags: 0

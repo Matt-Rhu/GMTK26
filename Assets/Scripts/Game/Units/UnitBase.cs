@@ -6,14 +6,16 @@ using UnityEngine;
 public abstract class UnitBase : MonoBehaviour
 {
     [SerializeField] protected UnitData data;
-    
+
 
     private Vector3 trueTarget;
     protected Vector3 targetPos;
 
     private Vector3 moveDir;
     
-    protected bool hasBall;
+	[SerializeField] protected float grabCooldown = 1f;
+    private float timerBeforeCanGrabAgain = -99f;
+    [HideInInspector] public bool hasBall;
 
 
     protected virtual void Start()
@@ -72,10 +74,16 @@ public abstract class UnitBase : MonoBehaviour
 
     private void TryGrabBall()
     {
+		if (timerBeforeCanGrabAgain > 0)
+        {
+            timerBeforeCanGrabAgain -= Time.deltaTime;
+            return;
+        }
+		
         if (!BallInGrabZone()) return;
         if (!CanGrabBall()) return;
-        hasBall = true;
-        Ball.instance.ChangeState(Ball.BallState.Held);
+        Ball.instance.Grab(this);
+        timerBeforeCanGrabAgain = grabCooldown;
         
         if (data.isOpponent)
             GameManager.instance.Lose();

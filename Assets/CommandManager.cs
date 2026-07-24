@@ -5,7 +5,6 @@ using UnityEngine;
 public class CommandManager : MonoBehaviour
 {
 
-    public List<PlayerUnit> players = new List<PlayerUnit>();
     private PlayerUnit selectedUnit;
     private bool dragging;
     private float dragDistance;
@@ -45,20 +44,32 @@ public class CommandManager : MonoBehaviour
             TryDeselectSelectedUnit();
             playerUnit.Select();
             selectedUnit = playerUnit;
-        } else
-        {
-            CommandBallHolderToShoot(targetPosition);
         }
     }
 
     private void ProcessReleaseAction()
     {
         RaycastHit rayCastHit = GetMouseRayCastHit();
+        GameObject hitGameObject = rayCastHit.transform.gameObject;
         Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
-        if (selectedUnit != null)
+
+        // If the Unit on which the mouse has been released is the selected one, reset all commands.
+        if (hitGameObject.TryGetComponent(out PlayerUnit playerUnit) && playerUnit == selectedUnit)
         {
-            CommandSelectedPlayerUnitToMove(targetPosition);
+            CommandSelectedPlayerUnitToStop();
+            CancelBallHolderThrow();
+        } else // Otherwise process the commands as normal.
+        {
+            if (selectedUnit != null)
+            {
+                CommandSelectedPlayerUnitToMove(targetPosition);
+            }
+            else
+            {
+                CommandBallHolderToPass(targetPosition);
+            }
         }
+        
         TryDeselectSelectedUnit();
     }
 
@@ -80,16 +91,47 @@ public class CommandManager : MonoBehaviour
         }
     }
 
-    private void CommandBallHolderToShoot(Vector3 shotPosition)
+    
+
+    private void CommandBallHolderToPass(Vector3 passTargetPosition)
     {
         // First find the player holding the ball (if exists)
-        foreach (PlayerUnit playerUnit in players)
+        PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
+        if (playerUnit != null)
         {
-            if (playerUnit.holdingBall)
-            {
-                playerUnit.RegisterPassCommand(shotPosition);
-            }
+            playerUnit.RegisterPassCommand(passTargetPosition);
         }
+    }
+
+    private void CommandBallHolderToShoot(Vector3 shootTargetPosition)
+    {
+        // First find the player holding the ball (if exists)
+        PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
+        if (playerUnit != null)
+        {
+            playerUnit.RegisterShootCommand(shootTargetPosition);
+        }
+    }
+
+    private void CancelBallHolderThrow()
+    {
+        // First find the player holding the ball (if exists)
+        PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
+        if (playerUnit != null)
+        {
+            playerUnit.CancelThrowCommand();
+        }
+    }
+
+
+    private PlayerUnit FindPlayerUnitHoldingBall()
+    {
+        UnitBase unitHoldingBall = Ball.instance.UnitHoldingIt;
+        if (unitHoldingBall != null && unitHoldingBall is PlayerUnit)
+        {
+            return (PlayerUnit) unitHoldingBall;
+        }
+        return null;
     }
 
     private void CommandSelectedPlayerUnitToMove(Vector3 targetPosition)
@@ -101,7 +143,7 @@ public class CommandManager : MonoBehaviour
         }
     }
 
-    private void CommandSelectedPlayerUnitToDoNothing()
+    private void CommandSelectedPlayerUnitToStop()
     {
         if (selectedUnit != null)
         {

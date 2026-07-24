@@ -11,10 +11,11 @@ public class Ball : MonoBehaviour
     public BallState CurrentState { get; private set; } = BallState.Idle;
 
     [HideInInspector] public int BallScore;
-    
+    [HideInInspector] public UnitBase UnitHoldingIt;
+
     // Shot on clic for debug. SHALL BE FALSE FOR RELEASE.
     public bool debugShotOnClick;
-    
+
     [FoldHeader("Ball Physics")]
     [SerializeField] private float shotForceFactor = 1f;
     [SerializeField] private float speedReductionFactorOnLanding = 2f;
@@ -36,7 +37,7 @@ public class Ball : MonoBehaviour
         // Only process Ball movement when not in tactical pause.
         if (!GameManager.instance.TacticalPause)
         {
-            switch (currentState)
+            switch (CurrentState)
             {
                 case BallState.Held:
                     break;
@@ -80,17 +81,19 @@ public class Ball : MonoBehaviour
 
     public void Shoot(Vector3 goalPosition, int score)
     {
+        Release();
         //sourcePosition = transform.position;
         //targetPosition = goalPosition;
         //velocity = (targetPosition - sourcePosition) * shotForceFactor;
         //currentState = BallState.Passed;
-        
+
         BallScore = score;
     }
 
 
     public void Pass(Vector3 passTargetPosition)
     {
+        Release();
         sourcePosition = transform.position;
         targetPosition = passTargetPosition;
         velocity = (targetPosition - sourcePosition) * shotForceFactor;
@@ -127,5 +130,18 @@ public class Ball : MonoBehaviour
 
             BallScore = 3;
         }
+    }
+
+    public void Grab(UnitBase unit)
+    {
+        UnitHoldingIt = unit;
+        UnitHoldingIt.hasBall = true;
+        Ball.instance.ChangeState(Ball.BallState.Held);
+    }
+
+    private void Release()
+    {
+        UnitHoldingIt.hasBall = false;
+        UnitHoldingIt = null;
     }
 }
