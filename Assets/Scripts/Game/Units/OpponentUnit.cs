@@ -67,7 +67,7 @@ public class OpponentUnit : UnitBase
         float shortestDistance = Mathf.Infinity;
         Vector3 closest = transform.position;
         Collider[] results = new Collider[10];
-        Physics.OverlapSphereNonAlloc(transform.position, 100, results, LayerMask.NameToLayer("PlayerUnit"));
+        Physics.OverlapSphereNonAlloc(transform.position, 100, results, LayerMask.GetMask("PlayerUnit"));
         foreach (Collider c in results)
         {
             if (c != null) {
