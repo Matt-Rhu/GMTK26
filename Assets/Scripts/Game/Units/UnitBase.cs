@@ -9,7 +9,7 @@ public abstract class UnitBase : MonoBehaviour
     [Space] 
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float zoneRadius;
-    [SerializeField] protected float ballSeekingRadius = 3;
+    [SerializeField] protected float ballSeekingRadius = 2.5f;
     
     protected Vector3 targetPos;
     protected bool hasBall;
