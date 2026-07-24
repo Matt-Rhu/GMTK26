@@ -53,7 +53,7 @@ public class OpponentUnit : UnitBase
 
     private Vector3 IntercepteurTarget()
     {
-        return Vector3.Lerp(Ball.instance.transform.position, ClosestPlayerUnit(), 0.5f);
+        return Vector3.Lerp(Ball.instance.transform.position, ClosestPlayerUnit(true), 0.5f);
     }
 
     private Vector3 SentinelleTarget()
@@ -62,7 +62,7 @@ public class OpponentUnit : UnitBase
     }
 
 
-    private Vector3 ClosestPlayerUnit()
+    private Vector3 ClosestPlayerUnit(bool excludeBallHolder = false)
     {
         float shortestDistance = Mathf.Infinity;
         Vector3 closest = transform.position;
@@ -71,6 +71,12 @@ public class OpponentUnit : UnitBase
         foreach (Collider c in results)
         {
             if (c != null) {
+                // Ignore the ball holder if parameter says so.
+                if (excludeBallHolder && c.transform.gameObject.TryGetComponent<PlayerUnit>(out PlayerUnit playerUnit) && playerUnit == Ball.instance.UnitHoldingIt)
+                {
+                    continue;
+                }
+                
                 float dist = Vector3.Distance(transform.position, c.transform.position);
                 if (!(dist < shortestDistance)) continue;
                 shortestDistance = dist;
