@@ -17,7 +17,7 @@ public class Ball : MonoBehaviour
     public bool debugShotOnClick;
 
     [FoldHeader("Ball Physics")]
-    [SerializeField] private float shotForceFactor = 1f;
+    public float shotForceFactor = 1f;
     [SerializeField] private float speedReductionFactorOnLanding = 2f;
     [SerializeField] private float distanceReductionFactorOnLanding = 1.4f;
     

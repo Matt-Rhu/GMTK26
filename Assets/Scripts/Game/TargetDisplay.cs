@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TargetDisplay : MonoBehaviour
 {
-    [SerializeField] private LineRenderer line;
     [SerializeField] private UnitBase unit;
+    [SerializeField] private LineRenderer line;
+    [SerializeField] private TMP_Text text;
+    [SerializeField] private float textOffset = 1.5f;
     
     private enum DisplayType {Movement, Throw}
-    [SerializeField] private DisplayType displayType;
+    [Space] [SerializeField] private DisplayType displayType;
 
 
     private void Start()
@@ -29,6 +32,9 @@ public class TargetDisplay : MonoBehaviour
         
         line.SetPosition(0, unit.transform.position);
         line.SetPosition(1, TargetPosition());
+
+        text.transform.position = line.GetPosition(1) + new Vector3(textOffset, 0, 0);
+        text.text = $"{NumberFormatting.Decimals(DurationToTarget(), 1)}s";
     }
 
     private Vector3 TargetPosition()
@@ -36,6 +42,14 @@ public class TargetDisplay : MonoBehaviour
         if (displayType is DisplayType.Movement)
             return unit.GetTarget();
         return ((PlayerUnit)unit).GetThrowTarget();
+    }
+
+    private float DurationToTarget()
+    {
+        if (displayType is DisplayType.Movement)
+            return Vector3.Distance(unit.GetTarget(), unit.transform.position) / unit.data.moveSpeed;
+        float ballSpeed = ((((PlayerUnit)unit).GetThrowTarget() - unit.transform.position) * Ball.instance.shotForceFactor).magnitude;
+        return Vector3.Distance(((PlayerUnit)unit).GetThrowTarget(), unit.transform.position) / ballSpeed;
     }
 
     private void ToggleRend(bool on)
