@@ -8,8 +8,9 @@ public class Ball : MonoBehaviour
     public static Ball instance;
 
     public enum BallState { Held, Passed, Shot, Idle};
-    [HideInInspector] public BallState currentState;
-    
+    public BallState CurrentState { get; private set; } = BallState.Idle;
+
+    [HideInInspector] public int BallScore;
     
     // Shot on clic for debug. SHALL BE FALSE FOR RELEASE.
     public bool debugShotOnClick;
@@ -32,7 +33,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        switch(currentState)
+        switch(CurrentState)
         {
             case BallState.Held:
                 break;
@@ -70,12 +71,14 @@ public class Ball : MonoBehaviour
     }
 
 
-    public void Shoot(Vector3 goalPosition)
+    public void Shoot(Vector3 goalPosition, int score)
     {
         //sourcePosition = transform.position;
         //targetPosition = goalPosition;
         //velocity = (targetPosition - sourcePosition) * shotForceFactor;
         //currentState = BallState.Passed;
+        
+        BallScore = score;
     }
 
 
@@ -90,7 +93,7 @@ public class Ball : MonoBehaviour
     public void ChangeState(BallState newState)
     {
         // print(newState);
-        currentState = newState;
+        CurrentState = newState;
     }
 
     public void Stop()
@@ -114,6 +117,8 @@ public class Ball : MonoBehaviour
                 Vector3 passTargetPosition = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
                 Pass(passTargetPosition);
             }
+
+            BallScore = 3;
         }
     }
 }

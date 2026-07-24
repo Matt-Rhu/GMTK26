@@ -35,6 +35,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""4ab96b59-65a5-4702-a108-f89833d66d69"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleTacticalPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""541c48a3-af81-4c56-a438-6e0748d22ecb"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_ToggleTacticalPause = m_Gameplay.FindAction("ToggleTacticalPause", throwIfNotFound: true);
+        m_Gameplay_Select = m_Gameplay.FindAction("Select", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +140,13 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_ToggleTacticalPause;
+    private readonly InputAction m_Gameplay_Select;
     public struct GameplayActions
     {
         private @InputMap m_Wrapper;
         public GameplayActions(@InputMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleTacticalPause => m_Wrapper.m_Gameplay_ToggleTacticalPause;
+        public InputAction @Select => m_Wrapper.m_Gameplay_Select;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +159,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @ToggleTacticalPause.started += instance.OnToggleTacticalPause;
             @ToggleTacticalPause.performed += instance.OnToggleTacticalPause;
             @ToggleTacticalPause.canceled += instance.OnToggleTacticalPause;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -143,6 +169,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @ToggleTacticalPause.started -= instance.OnToggleTacticalPause;
             @ToggleTacticalPause.performed -= instance.OnToggleTacticalPause;
             @ToggleTacticalPause.canceled -= instance.OnToggleTacticalPause;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -163,5 +192,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnToggleTacticalPause(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
 }

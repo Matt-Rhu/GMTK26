@@ -5,24 +5,17 @@ using UnityEngine;
 
 public class OpponentUnit : UnitBase
 {
-    [OnChange(nameof(SetSprite))] [SerializeField] private BehaviourType behaviour;
-    //TODO: need to change the sprite based on behaviour 
-    //private SpriteRenderer spriteRenderer;
-
     [SerializeField] private float targetRefreshRate = 0.5f;
-
-    public Transform target;
     
     private float t;
-
-
+    
     protected override void ActiveBehaviour()
     {
+        base.ActiveBehaviour();
+        
         if (hasBall) 
             GameManager.instance.Lose();
         
-        base.ActiveBehaviour();
-
         t += Time.deltaTime / targetRefreshRate;
         if (t >= 1f)
         {
@@ -34,7 +27,7 @@ public class OpponentUnit : UnitBase
 
     private Vector3 GetTarget()
     {
-        return behaviour switch
+        return data.behaviour switch
         {
             BehaviourType.Presseur => PresseurTarget(),
             BehaviourType.Toutout => ToutoutTarget(),
@@ -43,7 +36,9 @@ public class OpponentUnit : UnitBase
             _ => targetPos
         };
     }
-
+    
+    //TODO: we might want an override to target picking where if the ball is idle within a certain radius of the unit, they all go for it
+    
     private Vector3 PresseurTarget()
     {
         return ClosestPlayerUnit();
@@ -61,7 +56,7 @@ public class OpponentUnit : UnitBase
 
     private Vector3 SentinelleTarget()
     {
-        return target.position;
+        return new();
     }
 
 
@@ -90,13 +85,8 @@ public class OpponentUnit : UnitBase
         base.OnDrawGizmosSelected();
     }
     
-
-    private void SetSprite()
-    {
-        print("update sprite");
-    }
     
-    private enum BehaviourType
+    public enum BehaviourType
     {
         Presseur = 0,   
         Toutout,        

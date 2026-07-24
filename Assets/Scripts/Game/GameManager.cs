@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     [Space]
     [SerializeField] private int playerStartScore;
     [SerializeField] private int opponentStartScore;
+    [Space] 
+    public int inZoneScore = 2;
+    public int outZoneScore = 3;
 
     
     
