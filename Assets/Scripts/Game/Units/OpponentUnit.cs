@@ -15,12 +15,12 @@ public class OpponentUnit : UnitBase
         if (t >= 1f)
         {
             t = 0f;
-            SetTarget(GetTarget());
+            SetTarget(CalculateTarget());
         }
     }
     
 
-    private Vector3 GetTarget()
+    private Vector3 CalculateTarget()
     {
         return data.behaviour switch
         {

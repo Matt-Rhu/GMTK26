@@ -6,13 +6,18 @@ using UnityEngine;
 
 public class TargetDisplay : MonoBehaviour
 {
+    private enum DisplayType {Movement, Throw}
+    [SerializeField] private DisplayType displayType;
+    
+    [Space]
     [SerializeField] private UnitBase unit;
     [SerializeField] private LineRenderer line;
-    [SerializeField] private TMP_Text text;
-    [SerializeField] private float textOffset = 1.5f;
+
+    [Space]
+    [SerializeField] private bool displayTimeToDestination = true;
+    [HideWithValue(nameof(displayTimeToDestination))] [SerializeField] private TMP_Text text;
+    [HideWithValue(nameof(displayTimeToDestination))] [SerializeField] private float textOffset = 1.5f;
     
-    private enum DisplayType {Movement, Throw}
-    [Space] [SerializeField] private DisplayType displayType;
 
 
     private void Start()
@@ -32,8 +37,15 @@ public class TargetDisplay : MonoBehaviour
         
         line.SetPosition(0, unit.transform.position);
         line.SetPosition(1, TargetPosition());
-
-        text.transform.position = line.GetPosition(1) + new Vector3(textOffset, 0, 0);
+        
+        
+        if (!displayTimeToDestination)
+        {
+            text.gameObject.SetActive(false);
+            return;
+        }
+        
+        text.transform.position = line.GetPosition(1) + new Vector3(textOffset, 2, 0);
         text.text = $"{NumberFormatting.Decimals(DurationToTarget(), 1)}s";
     }
 
