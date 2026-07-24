@@ -22,4 +22,6 @@ public class UnitData : ScriptableObject
     
     [Header("Visuals")]
     public Sprite sprite;
+    public Gradient moveDisplayColour;
+    [HideWithValue(nameof(isOpponent), true)] public Gradient throwDisplayColour;
 }

@@ -1,41 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CommandManager : MonoBehaviour
 {
-
     private PlayerUnit selectedUnit;
     private bool dragging;
     private float dragDistance;
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
+    private void Awake()
+    {
+        Inputs.Gameplay.Select.started += _ => ProcessPressAction();
+        Inputs.Gameplay.Select.canceled += _ => ProcessReleaseAction();
+
+        Inputs.Gameplay.ToggleTacticalPause.performed += _ => TryDeselectSelectedUnit();
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (GameManager.instance.TacticalPause)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                ProcessPressAction();
-            } else if (Input.GetMouseButtonUp(0))
-            {
-                ProcessReleaseAction();
-            }
-        } else
-        {
-            TryDeselectSelectedUnit();
-        }
+        if (!dragging) return;
+        
+        RaycastHit rayCastHit = GetMouseRayCastHit();
+        Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
+        
+        if (selectedUnit)
+            selectedUnit.SetTarget(targetPosition);
     }
 
     private void ProcessPressAction()
     {
+        if (!GameManager.instance.TacticalPause) return;
+        
+        dragging = true;
         RaycastHit rayCastHit = GetMouseRayCastHit();
         GameObject hitGameObject = rayCastHit.transform.gameObject;
         Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
@@ -48,6 +46,9 @@ public class CommandManager : MonoBehaviour
 
     private void ProcessReleaseAction()
     {
+        if (!GameManager.instance.TacticalPause) return;
+        
+        dragging = false;
         RaycastHit rayCastHit = GetMouseRayCastHit();
         GameObject hitGameObject = rayCastHit.transform.gameObject;
         Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
@@ -88,7 +89,7 @@ public class CommandManager : MonoBehaviour
 
     private void TryDeselectSelectedUnit()
     {
-        if (selectedUnit != null)
+        if (selectedUnit)
         {
             selectedUnit.Deselect();
             selectedUnit = null;
@@ -101,7 +102,7 @@ public class CommandManager : MonoBehaviour
     {
         // First find the player holding the ball (if exists)
         PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
-        if (playerUnit != null)
+        if (playerUnit)
         {
             playerUnit.RegisterPassCommand(passTargetPosition);
         }
@@ -111,7 +112,7 @@ public class CommandManager : MonoBehaviour
     {
         // First find the player holding the ball (if exists)
         PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
-        if (playerUnit != null)
+        if (playerUnit)
         {
             playerUnit.RegisterShootCommand(shootTargetPosition);
         }
@@ -121,7 +122,7 @@ public class CommandManager : MonoBehaviour
     {
         // First find the player holding the ball (if exists)
         PlayerUnit playerUnit = FindPlayerUnitHoldingBall();
-        if (playerUnit != null)
+        if (playerUnit)
         {
             playerUnit.CancelThrowCommand();
         }
@@ -131,27 +132,27 @@ public class CommandManager : MonoBehaviour
     private PlayerUnit FindPlayerUnitHoldingBall()
     {
         UnitBase unitHoldingBall = Ball.instance.UnitHoldingIt;
-        if (unitHoldingBall != null && unitHoldingBall is PlayerUnit)
+        if (unitHoldingBall && unitHoldingBall is PlayerUnit unit)
         {
-            return (PlayerUnit) unitHoldingBall;
+            return unit;
         }
         return null;
     }
 
     private void CommandSelectedPlayerUnitToMove(Vector3 targetPosition)
     {
-        if (selectedUnit != null)
+        if (selectedUnit)
         {
-            selectedUnit.RegisterMoveCommand(targetPosition);
+            selectedUnit.SetTarget(targetPosition);
             TryDeselectSelectedUnit();
         }
     }
 
     private void CommandSelectedPlayerUnitToStop()
     {
-        if (selectedUnit != null)
+        if (selectedUnit)
         {
-            selectedUnit.RegisterStopCommand();
+            selectedUnit.SetTarget(selectedUnit.transform.position);
             TryDeselectSelectedUnit();
         }
     }

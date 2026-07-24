@@ -6,15 +6,6 @@ using UnityEngine;
 public class OpponentUnit : UnitBase
 {
     private float t;
-
-
-    protected override void Start()
-    {
-        base.Start();
-        
-        SetTarget(GetTarget());
-    }
-    
     
     protected override void ActiveBehaviour()
     {

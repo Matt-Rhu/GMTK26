@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
 {
-    [OnChange(nameof(OnDataChanged))] [SerializeField] protected UnitData data;
+    [OnChange(nameof(OnDataChanged))] public UnitData data;
 
 
     private Vector3 trueTarget;
@@ -27,6 +27,8 @@ public abstract class UnitBase : MonoBehaviour
         }
         
         UpdateSprite();
+        
+        SetTarget(transform.position);
     }
     
     protected virtual void Update()
@@ -75,6 +77,11 @@ public abstract class UnitBase : MonoBehaviour
     public void SetTarget(Vector3 target)
     {
         targetPos = trueTarget = target;
+    }
+
+    public Vector3 GetTarget()
+    {
+        return targetPos;
     }
 
 
@@ -133,10 +140,10 @@ public abstract class UnitBase : MonoBehaviour
     [Button]
     protected void UpdateSprite()
     {
-        if (data.sprite == null) return;
+        if (!data.sprite) return;
         
         var sr = GetComponentInChildren<SpriteRenderer>();
-        if (sr == null) return;
+        if (!sr) return;
         
         sr.sprite = data.sprite;
     }

@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     public event SimpleEvent OnLose;
     public event SimpleEvent OnWin;
     
+    public delegate void TacticalPauseEvent(bool pauseOn);
+    public event TacticalPauseEvent OnTacticalPause;
+    
     
     [Header("Game Settings")] 
     [SerializeField] private float allocatedTime = 30;
@@ -68,7 +71,10 @@ public class GameManager : MonoBehaviour
 
     public void ToggleTacticalPause()
     {
+        if (canReload) return;
+        
         TacticalPause = !TacticalPause;
+        OnTacticalPause?.Invoke(TacticalPause);
     }
     
     public void Win()

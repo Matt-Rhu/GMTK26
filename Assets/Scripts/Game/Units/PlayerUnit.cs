@@ -13,23 +13,16 @@ public class PlayerUnit : UnitBase
         PASS,
         SHOOT
     }
-
-    public enum MoveCommand
-    {
-        STOP,
-        MOVE_TO
-    }
-
+    
     private ThrowCommand nextThrowCommand = ThrowCommand.NONE;
     private Vector3 nextThrowTargetPosition = Vector3.zero;
-    private MoveCommand nextMoveCommand = MoveCommand.STOP;
+
 
     
     public bool CanThrow()
     {
         return !OpponentInZone() && hasBall;
     }
-
     
     private bool OpponentInZone()
     {
@@ -58,7 +51,8 @@ public class PlayerUnit : UnitBase
     
     protected override void ActiveBehaviour()
     {
-        TryGrabBall();
+        base.ActiveBehaviour();
+        
         // Process next throw command.
         switch (nextThrowCommand)
         {
@@ -72,16 +66,7 @@ public class PlayerUnit : UnitBase
                 // Do nothing.
                 break;
         }
-        // Process next move command;
-        switch (nextMoveCommand)
-        {
-            case MoveCommand.MOVE_TO:
-                ProcessMoveCommand();
-                break;
-            case MoveCommand.STOP:
-                IdleAtTarget();
-                break;
-        }
+        
         // Drag the ball if holding it anyway.
         if (hasBall)
         {
@@ -100,20 +85,7 @@ public class PlayerUnit : UnitBase
         selectionFX.SetActive(false);
     }
 
-
-    public void RegisterStopCommand()
-    {
-        nextMoveCommand = MoveCommand.STOP;
-        targetPos = new Vector3(-9999, -9999, -9999);
-    }
-
-
-    public void RegisterMoveCommand(Vector3 targetPosition)
-    {
-        nextMoveCommand = MoveCommand.MOVE_TO;
-        targetPos = targetPosition;
-    }
-
+    
 
     public void RegisterPassCommand(Vector3 targetPosition)
     {
@@ -134,27 +106,6 @@ public class PlayerUnit : UnitBase
         nextThrowTargetPosition = new Vector3(-9999, -9999, -9999);
     }
 
-    private void ProcessMoveCommand()
-    {
-
-        /*float distanceToTarget = (targetPos - transform.position).magnitude;
-        if (distanceToTarget > 1) // If did not reach distination, continue to move toward it.
-        {
-            transform.position += (targetPos - transform.position).normalized * moveSpeed * Time.deltaTime;
-        } else // If approximatively reached destination, then stop.
-        {
-            nextCommand = Command.STOP;
-        }*/
-
-        if (Vector3.Distance(transform.position, targetPos) > data.zoneRadius * 0.5f)
-        {
-            MoveTo(targetPos);
-        } else
-        {
-            nextMoveCommand = MoveCommand.STOP;
-        }
-    }
-
 
     private void ProcessPassCommand()
     {
@@ -166,7 +117,6 @@ public class PlayerUnit : UnitBase
             Pass(nextThrowTargetPosition);
         }
     }
-
 
     private void ProcessShootCommand()
     {
@@ -188,6 +138,16 @@ public class PlayerUnit : UnitBase
     private void Pass(Vector3 target)
     {
         Ball.instance.Pass(target);
+    }
+
+    public Vector3 GetThrowTarget()
+    {
+        return nextThrowTargetPosition;
+    }
+
+    public ThrowCommand GetThrowCommand()
+    {
+        return nextThrowCommand;
     }
 
 
