@@ -5,22 +5,29 @@ using UnityEngine;
 
 public class OpponentUnit : UnitBase
 {
+    [Space]
     [SerializeField] private float targetRefreshRate = 0.5f;
     
     private float t;
+
+
+    protected override void Start()
+    {
+        base.Start();
+        
+        SetTarget(GetTarget());
+    }
+    
     
     protected override void ActiveBehaviour()
     {
         base.ActiveBehaviour();
         
-        if (hasBall) 
-            GameManager.instance.Lose();
-        
         t += Time.deltaTime / targetRefreshRate;
         if (t >= 1f)
         {
             t = 0f;
-            targetPos = GetTarget();
+            SetTarget(GetTarget());
         }
     }
     

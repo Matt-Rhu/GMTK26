@@ -8,10 +8,17 @@ public abstract class UnitBase : MonoBehaviour
     [SerializeField] protected UnitData data;
     [Space] 
     [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float directionInterpolationSpeed = 3;
+    [SerializeField] protected float idleMoveRadius = 1.5f;
+    [Space]
     [SerializeField] protected float zoneRadius;
     [SerializeField] protected float ballSeekingRadius = 2.5f;
-    
+
+    protected Vector3 trueTarget;
     protected Vector3 targetPos;
+
+    protected Vector3 moveDir;
+    
     protected bool hasBall;
 
 
@@ -35,23 +42,26 @@ public abstract class UnitBase : MonoBehaviour
     {
         TryGrabBall();
         
-        if (Vector3.Distance(transform.position, targetPos) > zoneRadius * 0.5f)
-            GoToTarget();
+        var target = IdleBallInSeekZone() ? Ball.instance.transform.position : targetPos;
+        MoveTo(target);
+    }
+
+    private void MoveTo(Vector3 target)
+    {
+        if (Vector3.Distance(transform.position, target) > zoneRadius * 0.5f)
+        {
+            moveDir = Vector3.Lerp(moveDir, target - transform.position, Time.deltaTime * directionInterpolationSpeed);
+            transform.Translate(moveDir.normalized * (moveSpeed * Time.deltaTime));
+        }
         else
             IdleAtTarget();
     }
 
-    protected virtual void GoToTarget()
-    {
-        //TODO: movement is extremely stiff for now, probably would need to accelerate and decelerate, and lerp the target direction so they don't do a hard turn after a target refresh
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-    }
-
     protected virtual void IdleAtTarget()
     {
-        //TODO: idle behaviour
-        //probably just gonna move around at random within a small radius
-        //maybe just set a new target nearby
+        var rnd = RandomVectors.Range3(-idleMoveRadius, idleMoveRadius);
+        rnd.y = 0;
+        targetPos = trueTarget + rnd;
     }
     
 
@@ -60,22 +70,36 @@ public abstract class UnitBase : MonoBehaviour
         
     }
 
-
-    protected void TryGrabBall()
+    public void SetTarget(Vector3 target)
     {
-        if (!BallInZone()) return;
+        targetPos = trueTarget = target;
+    }
+
+
+    private void TryGrabBall()
+    {
+        if (!BallInGrabZone()) return;
         if (!CanGrabBall()) return;
         hasBall = true;
         Ball.instance.ChangeState(Ball.BallState.Held);
+        
+        if (data.isOpponent)
+            GameManager.instance.Lose();
     }
     
-    protected bool BallInZone()
+    private bool BallInGrabZone()
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, new Collider[1], LayerMask.GetMask("Ball"));
         return count > 0;
     }
+    
+    private bool IdleBallInSeekZone()
+    {
+        int count = Physics.OverlapSphereNonAlloc(transform.position, ballSeekingRadius, new Collider[1], LayerMask.GetMask("Ball"));
+        return count > 0 && Ball.instance.CurrentState is Ball.BallState.Idle;
+    }
 
-    protected bool CanGrabBall()
+    private bool CanGrabBall()
     {
         foreach (var state in data.canGrabBallInStates)
             if (Ball.instance.CurrentState == state)
@@ -89,6 +113,7 @@ public abstract class UnitBase : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, ballSeekingRadius);
     }
+    
 
     [Button]
     protected void UpdateSprite()

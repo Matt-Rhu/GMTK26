@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
         RemainingTime = allocatedTime;
         PlayerScore = playerStartScore;
         OpponentScore = opponentStartScore;
+        
+        Time.timeScale = 1;
     }
 
     private void Update()
@@ -87,6 +89,5 @@ public class GameManager : MonoBehaviour
     {
         if (!canReload) return;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
     }
 }
