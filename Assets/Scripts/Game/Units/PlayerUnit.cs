@@ -148,9 +148,9 @@ public class PlayerUnit : UnitBase
             nextCommand = Command.STOP;
         }*/
 
-        if (Vector3.Distance(transform.position, targetPos) > zoneRadius * 0.5f)
+        if (Vector3.Distance(transform.position, targetPos) > data.zoneRadius * 0.5f)
         {
-            GoToTarget();
+            MoveTo(targetPos);
         } else
         {
             nextMoveCommand = MoveCommand.STOP;

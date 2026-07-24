@@ -42,7 +42,7 @@ public abstract class UnitBase : MonoBehaviour
         MoveTo(target);
     }
 
-    private void MoveTo(Vector3 target)
+    protected void MoveTo(Vector3 target)
     {
         if (Vector3.Distance(transform.position, target) > data.zoneRadius * 0.5f)
         {
@@ -72,7 +72,7 @@ public abstract class UnitBase : MonoBehaviour
     }
 
 
-    private void TryGrabBall()
+    protected void TryGrabBall()
     {
 		if (timerBeforeCanGrabAgain > 0)
         {
