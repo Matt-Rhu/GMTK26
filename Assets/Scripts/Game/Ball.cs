@@ -6,40 +6,31 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public static Ball instance;
-    
 
     public enum BallState { Held, Passed, Shot, Idle};
-
-    public BallState currentState;
-    // Ball physics parameters
-    public BallPhysics ballPhysicsParameters;
-    [System.Serializable]
-    public class BallPhysics
-    {
-        public float shotForceFactor = 1f;
-        public float speedReductionFactorOnLanding = 2f;
-        public float distanceReductionFactorOnLanding = 1.4f;
-    }
-
+    [HideInInspector] public BallState currentState;
+    
+    
+    // Shot on clic for debug. SHALL BE FALSE FOR RELEASE.
+    public bool debugShotOnClick;
+    
+    [FoldHeader("Ball Physics")]
+    [SerializeField] private float shotForceFactor = 1f;
+    [SerializeField] private float speedReductionFactorOnLanding = 2f;
+    [SerializeField] private float distanceReductionFactorOnLanding = 1.4f;
+    
 
     private Vector3 velocity = new Vector3(0, 0, 0);
     private Vector3 sourcePosition = new Vector3(0, 0, 0);
     private Vector3 targetPosition = new Vector3(0, 0, 0);
 
-    // Shot on clic for debug. SHALL BE FALSE FOR RELEASE.
-    public bool debugShotOnClick = false;
 
     private void Awake()
     {
         instance = this;
     }
 
-    void Start()
-    {
-
-    }
-
-    void Update()
+    private void Update()
     {
         switch(currentState)
         {
@@ -47,41 +38,39 @@ public class Ball : MonoBehaviour
                 break;
             case BallState.Passed:
             case BallState.Shot:
-                freeTravel();
+                FreeTravel();
                 break;
             case BallState.Idle:
                 break;
         }
-
         
         if (debugShotOnClick) // DEBUG ONLY. Freely shoot the ball without selecting any players.
         {
-            debugPassTowardMouseClick();
+            DebugPassTowardMouseClick();
         }
-        
     }
 
-    private void freeTravel()
+    private void FreeTravel()
     {
         transform.position += velocity * Time.deltaTime;
         if ((transform.position - targetPosition).magnitude < 0.1)
         {
             Vector3 newSourcePosition = transform.position;
-            Vector3 newTargetPosition = newSourcePosition + (targetPosition - sourcePosition) / ballPhysicsParameters.distanceReductionFactorOnLanding;
-            Vector3 newVelocity = (newTargetPosition - newSourcePosition) * ballPhysicsParameters.shotForceFactor / ballPhysicsParameters.speedReductionFactorOnLanding;
+            Vector3 newTargetPosition = newSourcePosition + (targetPosition - sourcePosition) / distanceReductionFactorOnLanding;
+            Vector3 newVelocity = (newTargetPosition - newSourcePosition) * shotForceFactor / speedReductionFactorOnLanding;
 
             sourcePosition = newSourcePosition;
             targetPosition = newTargetPosition;
             velocity = newVelocity;
             if (velocity.magnitude < 1)
             {
-                stop();
+                Stop();
             }
         }
     }
 
 
-    public void shoot(Vector3 goalPosition)
+    public void Shoot(Vector3 goalPosition)
     {
         //sourcePosition = transform.position;
         //targetPosition = goalPosition;
@@ -90,29 +79,29 @@ public class Ball : MonoBehaviour
     }
 
 
-    public void pass(Vector3 passTargetPosition)
+    public void Pass(Vector3 passTargetPosition)
     {
         sourcePosition = transform.position;
         targetPosition = passTargetPosition;
-        velocity = (targetPosition - sourcePosition) * ballPhysicsParameters.shotForceFactor;
-        changeState(BallState.Passed);
+        velocity = (targetPosition - sourcePosition) * shotForceFactor;
+        ChangeState(BallState.Passed);
     }
 
-    public void changeState(BallState newState)
+    public void ChangeState(BallState newState)
     {
         // print(newState);
         currentState = newState;
     }
 
-    public void stop()
+    public void Stop()
     {
         velocity = Vector3.zero;
         sourcePosition = Vector3.zero;
         targetPosition = Vector3.zero;
-        changeState(BallState.Idle);
+        ChangeState(BallState.Idle);
     }
 
-    private void debugPassTowardMouseClick()
+    private void DebugPassTowardMouseClick()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -123,7 +112,7 @@ public class Ball : MonoBehaviour
             if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, layerMask))
             {
                 Vector3 passTargetPosition = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
-                pass(passTargetPosition);
+                Pass(passTargetPosition);
             }
         }
     }
