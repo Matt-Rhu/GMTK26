@@ -8,8 +8,8 @@ public class WinAndLoseScreens : MonoBehaviour
     
     public void Start()
     {
-        GameManager.OnLose += Lose;
-        GameManager.OnWin += Win;
+        GameManager.instance.OnLose += Lose;
+        GameManager.instance.OnWin += Win;
     }
     
     private void Win()

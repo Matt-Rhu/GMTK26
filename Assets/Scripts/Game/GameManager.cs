@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
 
 
     public delegate void SimpleEvent();
-    public static event SimpleEvent OnLose;
-    public static event SimpleEvent OnWin;
+    public event SimpleEvent OnLose;
+    public event SimpleEvent OnWin;
     
     
     [Header("Game Settings")] 
