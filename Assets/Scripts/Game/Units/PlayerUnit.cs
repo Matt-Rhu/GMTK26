@@ -23,7 +23,7 @@ public class PlayerUnit : UnitBase
     
     private bool OpponentInZone()
     {
-        var count = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, new Collider[1], LayerMask.GetMask("OpponentUnit"));
+        var count = Physics.OverlapSphereNonAlloc(transform.position, data.zoneRadius, new Collider[1], LayerMask.GetMask("OpponentUnit"));
         return count > 0;
     }
 

@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class OpponentUnit : UnitBase
 {
-    [Space]
-    [SerializeField] private float targetRefreshRate = 0.5f;
-    
     private float t;
 
 
@@ -23,7 +20,7 @@ public class OpponentUnit : UnitBase
     {
         base.ActiveBehaviour();
         
-        t += Time.deltaTime / targetRefreshRate;
+        t += Time.deltaTime / data.targetRefreshRate;
         if (t >= 1f)
         {
             t = 0f;

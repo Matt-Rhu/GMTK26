@@ -436,7 +436,7 @@ Transform:
   m_GameObject: {fileID: 380745593}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1491588988}
@@ -483,7 +483,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 02b7a7dad2f54724384b78031690a99e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1387,9 +1387,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd89999c6a3555438ea9cfd7bcbc150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 290dd977e17ea8546866ca6b67d5cfa5, type: 2}
-  zoneRadius: 1
+  data: {fileID: 11400000, guid: 32e3b1e6d051f344599d68280841f785, type: 2}
   moveSpeed: 5
+  directionInterpolationSpeed: 2.5
+  idleMoveRadius: 2
+  zoneRadius: 1
+  ballSeekingRadius: 3
   targetRefreshRate: 0.5
 --- !u!4 &1491588988
 Transform:

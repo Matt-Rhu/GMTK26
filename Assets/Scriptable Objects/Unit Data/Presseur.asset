@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e87542ae7294b96b190bd1c5bc5a02e, type: 3}
   m_Name: Presseur
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: af2bef066fbbc4148b29954dbbd8175f, type: 3}
   canGrabBallInStates: 0200000003000000
   isOpponent: 1
   behaviour: 0

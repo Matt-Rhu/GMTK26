@@ -6,18 +6,12 @@ using UnityEngine;
 public abstract class UnitBase : MonoBehaviour
 {
     [SerializeField] protected UnitData data;
-    [Space] 
-    [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float directionInterpolationSpeed = 3;
-    [SerializeField] protected float idleMoveRadius = 1.5f;
-    [Space]
-    [SerializeField] protected float zoneRadius;
-    [SerializeField] protected float ballSeekingRadius = 2.5f;
+    
 
-    protected Vector3 trueTarget;
+    private Vector3 trueTarget;
     protected Vector3 targetPos;
 
-    protected Vector3 moveDir;
+    private Vector3 moveDir;
     
     protected bool hasBall;
 
@@ -48,10 +42,10 @@ public abstract class UnitBase : MonoBehaviour
 
     private void MoveTo(Vector3 target)
     {
-        if (Vector3.Distance(transform.position, target) > zoneRadius * 0.5f)
+        if (Vector3.Distance(transform.position, target) > data.zoneRadius * 0.5f)
         {
-            moveDir = Vector3.Lerp(moveDir, target - transform.position, Time.deltaTime * directionInterpolationSpeed);
-            transform.Translate(moveDir.normalized * (moveSpeed * Time.deltaTime));
+            moveDir = Vector3.Lerp(moveDir, target - transform.position, Time.deltaTime * data.directionInterpolationSpeed);
+            transform.Translate(moveDir.normalized * (data.moveSpeed * Time.deltaTime));
         }
         else
             IdleAtTarget();
@@ -59,7 +53,7 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void IdleAtTarget()
     {
-        var rnd = RandomVectors.Range3(-idleMoveRadius, idleMoveRadius);
+        var rnd = RandomVectors.Range3(-data.idleMoveRadius, data.idleMoveRadius);
         rnd.y = 0;
         targetPos = trueTarget + rnd;
     }
@@ -89,13 +83,13 @@ public abstract class UnitBase : MonoBehaviour
     
     private bool BallInGrabZone()
     {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, zoneRadius, new Collider[1], LayerMask.GetMask("Ball"));
+        int count = Physics.OverlapSphereNonAlloc(transform.position, data.zoneRadius, new Collider[1], LayerMask.GetMask("Ball"));
         return count > 0;
     }
     
     private bool IdleBallInSeekZone()
     {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, ballSeekingRadius, new Collider[1], LayerMask.GetMask("Ball"));
+        int count = Physics.OverlapSphereNonAlloc(transform.position, data.ballSeekingRadius, new Collider[1], LayerMask.GetMask("Ball"));
         return count > 0 && Ball.instance.CurrentState is Ball.BallState.Idle;
     }
 
@@ -109,9 +103,9 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, zoneRadius);
+        Gizmos.DrawWireSphere(transform.position, data.zoneRadius);
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, ballSeekingRadius);
+        Gizmos.DrawWireSphere(transform.position, data.ballSeekingRadius);
     }
     
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e87542ae7294b96b190bd1c5bc5a02e, type: 3}
   m_Name: Intercepteur
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: cc2eae5d20ef48b468ff93d9efbbdf2c, type: 3}
   canGrabBallInStates: 030000000100000002000000
   isOpponent: 1
   behaviour: 2

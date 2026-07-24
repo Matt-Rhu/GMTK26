@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e87542ae7294b96b190bd1c5bc5a02e, type: 3}
   m_Name: Toutout
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 02b7a7dad2f54724384b78031690a99e, type: 3}
   canGrabBallInStates: 030000000000000002000000
   isOpponent: 1
   behaviour: 1
