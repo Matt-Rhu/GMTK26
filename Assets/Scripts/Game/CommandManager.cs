@@ -41,7 +41,6 @@ public class CommandManager : MonoBehaviour
         Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
         if (hitGameObject.TryGetComponent(out PlayerUnit playerUnit))
         { // If mouse touch PlayerUnit select it whatever.
-            TryDeselectSelectedUnit();
             playerUnit.Select();
             selectedUnit = playerUnit;
         }
@@ -58,6 +57,12 @@ public class CommandManager : MonoBehaviour
         {
             CommandSelectedPlayerUnitToStop();
             CancelBallHolderThrow();
+        } else if (hitGameObject.TryGetComponent(out Goal goal))
+        {
+            if (selectedUnit == null)
+            {
+                CommandBallHolderToShoot(targetPosition);
+            }
         } else // Otherwise process the commands as normal.
         {
             if (selectedUnit != null)
@@ -69,7 +74,6 @@ public class CommandManager : MonoBehaviour
                 CommandBallHolderToPass(targetPosition);
             }
         }
-        
         TryDeselectSelectedUnit();
     }
 
@@ -77,7 +81,7 @@ public class CommandManager : MonoBehaviour
     {
         Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit = new RaycastHit();
-        Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, LayerMask.GetMask("PlayerUnit", "Terrain"));
+        Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, LayerMask.GetMask("PlayerUnit", "Terrain", "Goal"));
 
         return raycastHit;
     }

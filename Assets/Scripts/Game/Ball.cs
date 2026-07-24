@@ -89,10 +89,10 @@ public class Ball : MonoBehaviour
     public void Shoot(Vector3 goalPosition, int score)
     {
         Release();
-        //sourcePosition = transform.position;
-        //targetPosition = goalPosition;
-        //velocity = (targetPosition - sourcePosition) * shotForceFactor;
-        //currentState = BallState.Passed;
+        sourcePosition = transform.position;
+        targetPosition = goalPosition;
+        velocity = (targetPosition - sourcePosition) * shotForceFactor;
+        ChangeState(BallState.Shot);
 
         BallScore = score;
     }
