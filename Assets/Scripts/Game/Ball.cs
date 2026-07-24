@@ -33,22 +33,29 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        switch(CurrentState)
+        // Only process Ball movement when not in tactical pause.
+        if (!GameManager.instance.TacticalPause)
         {
-            case BallState.Held:
-                break;
-            case BallState.Passed:
-            case BallState.Shot:
-                FreeTravel();
-                break;
-            case BallState.Idle:
-                break;
+            switch (currentState)
+            {
+                case BallState.Held:
+                    break;
+                case BallState.Passed:
+                case BallState.Shot:
+                    FreeTravel();
+                    break;
+                case BallState.Idle:
+                    break;
+            }
+
+            if (debugShotOnClick) // DEBUG ONLY. Freely shoot the ball without selecting any players.
+            {
+                DebugPassTowardMouseClick();
+            }
         }
+            
         
-        if (debugShotOnClick) // DEBUG ONLY. Freely shoot the ball without selecting any players.
-        {
-            DebugPassTowardMouseClick();
-        }
+        
     }
 
     private void FreeTravel()
