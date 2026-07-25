@@ -34,11 +34,10 @@ public abstract class UnitBase : MonoBehaviour
     protected virtual void Update()
     {
         if (GameManager.instance.OutOfTime) return;
+
+        if (GameManager.instance.TacticalPause) return;
         
-        if (GameManager.instance.TacticalPause) 
-            TacticalPauseBehaviour();
-        else
-            ActiveBehaviour();
+        ActiveBehaviour();
     }
     
     
@@ -63,15 +62,21 @@ public abstract class UnitBase : MonoBehaviour
 
     protected virtual void IdleAtTarget()
     {
-        var rnd = RandomVectors.Range3(-data.idleMoveRadius, data.idleMoveRadius);
-        rnd.y = 0;
-        targetPos = trueTarget + rnd;
-    }
-    
+        //iterate until finds a position that is not outside the terrain
+        while (true)
+        {
+            var rnd = RandomVectors.Range3(-data.idleMoveRadius, data.idleMoveRadius);
+            rnd.y = 0;
 
-    protected virtual void TacticalPauseBehaviour()
-    {
-        
+            var pos = trueTarget + rnd;
+
+            var ray = new Ray(pos, Vector3.down);
+            if (Physics.Raycast(ray, out var raycastHit, Mathf.Infinity, LayerMask.GetMask("Terrain")))
+                targetPos = pos;
+            else
+                continue;
+            break;
+        }
     }
 
     public void SetTarget(Vector3 target)
