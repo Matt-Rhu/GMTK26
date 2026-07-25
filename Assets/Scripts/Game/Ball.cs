@@ -117,7 +117,7 @@ public class Ball : MonoBehaviour
     }
 
     private void DebugPassTowardMouseClick()
-    {
+    {   
         if (Input.GetMouseButtonDown(0))
         {
             Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -142,7 +142,13 @@ public class Ball : MonoBehaviour
 
     private void Release()
     {
+        if (!UnitHoldingIt) return;
         UnitHoldingIt.hasBall = false;
         UnitHoldingIt = null;
+    }
+
+    public Vector3 Velocity()
+    {
+        return velocity;
     }
 }

@@ -14,7 +14,7 @@ public class Timer : MonoBehaviour
     
     private void Update()
     {
-        timerText.text = NumberFormatting.Decimals(GameManager.instance.RemainingTime, 2);
+        timerText.text = NumberFormatting.SetPaddingAndDecimals(GameManager.instance.RemainingTime, 2, 2);
         
         
         if (!GameManager.instance.TacticalPause)

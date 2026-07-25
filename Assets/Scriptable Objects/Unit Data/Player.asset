@@ -17,7 +17,7 @@ MonoBehaviour:
   idleMoveRadius: 2
   zoneRadius: 1
   ballSeekingRadius: 2.5
-  grabCooldown: 3
+  grabCooldown: 1.5
   canGrabBallInStates: 0100000003000000
   isOpponent: 0
   behaviour: 0
