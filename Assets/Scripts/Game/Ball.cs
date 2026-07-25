@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
 {
     public static Ball instance;
 
-    public enum BallState { Held, Passed, Shot, Idle};
+    public enum BallState { Held, Passed, Shot, Idle };
     public BallState CurrentState { get; private set; } = BallState.Idle;
 
     [HideInInspector] public int BallScore;
@@ -17,11 +17,12 @@ public class Ball : MonoBehaviour
     public bool debugShotOnClick;
 
     [FoldHeader("Ball Physics")]
-    public float shotForceFactor = 1f;
+    public float InitialVelocity = 10f;
     [SerializeField] private float speedReductionFactorOnLanding = 2f;
     [SerializeField] private float distanceReductionFactorOnLanding = 1.4f;
-    
 
+
+    private float realInitialVelocity = 10f;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private Vector3 sourcePosition = new Vector3(0, 0, 0);
     private Vector3 targetPosition = new Vector3(0, 0, 0);
@@ -29,6 +30,7 @@ public class Ball : MonoBehaviour
 
     private void Awake()
     {
+        realInitialVelocity = 3 * InitialVelocity;
         instance = this;
     }
 
@@ -68,12 +70,13 @@ public class Ball : MonoBehaviour
             GameManager.instance.Win();
         }
 
+
         transform.position += velocity * Time.deltaTime;
         if ((transform.position - targetPosition).magnitude < 0.1)
         {
             Vector3 newSourcePosition = transform.position;
             Vector3 newTargetPosition = newSourcePosition + (targetPosition - sourcePosition) / distanceReductionFactorOnLanding;
-            Vector3 newVelocity = (newTargetPosition - newSourcePosition) * shotForceFactor / speedReductionFactorOnLanding;
+            Vector3 newVelocity = (newTargetPosition - newSourcePosition).normalized * velocity.magnitude / speedReductionFactorOnLanding;
 
             sourcePosition = newSourcePosition;
             targetPosition = newTargetPosition;
@@ -91,7 +94,7 @@ public class Ball : MonoBehaviour
         Release();
         sourcePosition = transform.position;
         targetPosition = goalPosition;
-        velocity = (targetPosition - sourcePosition) * shotForceFactor;
+        velocity = (targetPosition - sourcePosition).normalized * realInitialVelocity;
         ChangeState(BallState.Shot);
 
         BallScore = score;
@@ -103,7 +106,7 @@ public class Ball : MonoBehaviour
         Release();
         sourcePosition = transform.position;
         targetPosition = passTargetPosition;
-        velocity = (targetPosition - sourcePosition) * shotForceFactor;
+        velocity = (targetPosition - sourcePosition).normalized * realInitialVelocity;
         ChangeState(BallState.Passed);
     }
 

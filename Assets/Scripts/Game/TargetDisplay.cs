@@ -77,8 +77,8 @@ public class TargetDisplay : MonoBehaviour
     {
         if (displayType is DisplayType.Movement)
             return Vector3.Distance(unit.GetTarget(), unit.transform.position) / unit.data.moveSpeed;
-        float ballSpeed = ((((PlayerUnit)unit).GetThrowTarget() - unit.transform.position) * Ball.instance.shotForceFactor).magnitude;
-        return Vector3.Distance(((PlayerUnit)unit).GetThrowTarget(), unit.transform.position) / ballSpeed;
+        // float ballSpeed = ((((PlayerUnit)unit).GetThrowTarget() - unit.transform.position) * ).magnitude;
+        return Vector3.Distance(((PlayerUnit)unit).GetThrowTarget(), unit.transform.position) / Ball.instance.InitialVelocity;
     }
 
     private void ToggleRend(bool on)
