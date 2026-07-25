@@ -65,8 +65,11 @@ public class GameManager : MonoBehaviour
         if (RemainingTime <= 0)
         {
             OutOfTime = true;
-            Lose();
-            //TODO: will need to cleanup the timeout so units and the player can't act when it hits 0, but it's not a defeat until the ball stops moving
+            // If Time is over, you do not as long as the ball is in shot (can still win).
+            if (Ball.instance.CurrentState != Ball.BallState.Shot)
+            {
+                Lose();
+            }
         }
     }
 
@@ -113,14 +116,12 @@ public class GameManager : MonoBehaviour
     { 
         canReload = true;
         OnWin?.Invoke();  
-        Time.timeScale = 0;
     }
 
     public void Lose()
     {
         canReload = true;
         OnLose?.Invoke();
-        Time.timeScale = 0;
     }
 
     private void ReloadScene()

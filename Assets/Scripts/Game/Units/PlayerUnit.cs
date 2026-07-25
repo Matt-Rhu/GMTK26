@@ -77,13 +77,6 @@ public class PlayerUnit : UnitBase
                 // Do nothing.
                 break;
         }
-        
-        // Drag the ball if holding it anyway.
-        if (hasBall)
-        {
-            Vector3 playerDirection = (targetPos - transform.position).normalized * 1.0f;
-            Ball.instance.transform.position = transform.position + playerDirection;
-        }
     }
 
     public void ShowHighlight()

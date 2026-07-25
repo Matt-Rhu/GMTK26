@@ -35,8 +35,6 @@ public abstract class UnitBase : MonoBehaviour
     {
         if (!GameManager.instance.GameStarted) return;
 
-        if (GameManager.instance.OutOfTime) return;
-
         if (GameManager.instance.TacticalPause) return;
         
         ActiveBehaviour();

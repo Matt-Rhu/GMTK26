@@ -48,8 +48,6 @@ public class Ball : MonoBehaviour
     {
         if (!GameManager.instance.GameStarted) return;
 
-        if (GameManager.instance.OutOfTime) return;
-
         if (GameManager.instance.TacticalPause) return;
 
         ActiveBehaviour();
@@ -110,6 +108,8 @@ public class Ball : MonoBehaviour
     }
     private void DriveTravel()
     {
+        Vector3 unitHoldingBallDirection = (UnitHoldingIt.GetTarget() - UnitHoldingIt.transform.position).normalized * 1.0f;
+        transform.position = UnitHoldingIt.transform.position + unitHoldingBallDirection;
         float parabolProgress = 1.0f - ParabolicInterpolation(Mathf.Repeat(Time.realtimeSinceStartup * 4.0f, 1.0f));
         ballSprite.transform.localScale = Vector3.one * (defaultScale - parabolProgress * defaultScale / 3.0f);
     }
