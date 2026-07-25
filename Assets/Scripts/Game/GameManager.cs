@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public bool GameStarted { get; private set; }
     public bool TacticalPause { get; private set; }
     public bool OutOfTime { get; private set; }
     public float RemainingTime { get; private set; }
@@ -18,6 +19,13 @@ public class GameManager : MonoBehaviour
 
     public int OutZoneScore { get; private set; }
 
+    // References
+    public MainCamera mainCamera;
+
+    [Header("Settings")]
+    [SerializeField] private float zoomInDuration = 0f;
+    [SerializeField] private float timeBeforeGameStartAfterZoom = 1f;
+    [SerializeField] private bool startWithTutorial = false;
 
     public delegate void SimpleEvent();
     public event SimpleEvent OnLose;
@@ -28,10 +36,12 @@ public class GameManager : MonoBehaviour
 
 
     private bool canReload;
-    
+    private float startGameTimer = 0f;
     
     private void Awake()
     {
+        GameStarted = false;
+        startGameTimer = zoomInDuration + timeBeforeGameStartAfterZoom;
         instance = this;
         Inputs.Gameplay.ToggleTacticalPause.performed += _ => ToggleTacticalPause();
         Inputs.Gameplay.Reload.performed += _ => ReloadScene();
@@ -39,8 +49,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    private void Start()
+    {
+        mainCamera.EnterLevelZoom(zoomInDuration);
+    }
+
     private void Update()
     {
+        // To not do anything before the game start.
+        if (processIdleBeforeGameStarted()) return;
+
         if (TacticalPause) return;
         RemainingTime -= Time.deltaTime;
         RemainingTime = Mathf.Clamp(RemainingTime, 0, Mathf.Infinity);
@@ -52,7 +70,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    private bool processIdleBeforeGameStarted()
+    {
+        if (startGameTimer > 0f)
+        {
+            GameStarted = false;
+            startGameTimer -= Time.deltaTime;
+        } else
+        {
+            GameStarted = true;
+        }
+        return !GameStarted;
+        
+    }
     public void InitializeFromStartPositionDatas(float remainingTime, int playerStartScore, int opponentStartScore, int inZoneScore, int outZoneScore)
     {
         RemainingTime = remainingTime;
@@ -71,6 +101,8 @@ public class GameManager : MonoBehaviour
 
     public void ToggleTacticalPause()
     {
+        if (!GameStarted) return;
+
         if (canReload) return;
         
         TacticalPause = !TacticalPause;

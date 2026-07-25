@@ -33,6 +33,8 @@ public abstract class UnitBase : MonoBehaviour
     
     protected virtual void Update()
     {
+        if (!GameManager.instance.GameStarted) return;
+
         if (GameManager.instance.OutOfTime) return;
 
         if (GameManager.instance.TacticalPause) return;
