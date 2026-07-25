@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TargetDisplay : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class TargetDisplay : MonoBehaviour
     [Space]
     [SerializeField] private UnitBase unit;
     [SerializeField] private LineRenderer line;
+    [FormerlySerializedAs("cursor")] [SerializeField] private SpriteRenderer throwCursor;
+    [SerializeField] private SpriteRenderer moveCursor;
+    private SpriteRenderer actualCursor;
 
     [Space]
     [SerializeField] private bool displayTimeToDestination = true;
@@ -28,23 +32,35 @@ public class TargetDisplay : MonoBehaviour
             displayType = DisplayType.Movement;
         
         line.colorGradient = displayType is DisplayType.Movement ? unit.data.moveDisplayColour : unit.data.throwDisplayColour;
+        
+        actualCursor = displayType is DisplayType.Movement ? moveCursor : throwCursor;
+        actualCursor.color = line.colorGradient.Evaluate(1);
     }
 
     private void Update()
     {
-        if (displayType is DisplayType.Throw)
+        var isMoveDisplay = displayType is DisplayType.Movement;
+        
+        if (!isMoveDisplay)
             ToggleRend(((PlayerUnit)unit).GetThrowCommand() is not PlayerUnit.ThrowCommand.NONE);
         
+        // place line points and cursor
         line.SetPosition(0, unit.transform.position);
-        line.SetPosition(1, TargetPosition());
+        actualCursor.transform.position = TargetPosition();
+        var dir = actualCursor.transform.position - unit.transform.position;
+        var offsetFromCursor = isMoveDisplay ? 0.2f : 0.7f;
+        line.SetPosition(1, unit.transform.position + dir.normalized * (dir.magnitude - offsetFromCursor));
         
+        // if movement display, arrow faces direction
+        if (isMoveDisplay)
+           actualCursor.transform.parent.LookAt(actualCursor.transform.position + dir);
         
+        // if duration display, duration stuff
         if (!displayTimeToDestination)
         {
             text.gameObject.SetActive(false);
             return;
         }
-        
         text.transform.position = line.GetPosition(1) + new Vector3(textOffset, 2, 0);
         text.text = $"{NumberFormatting.Decimals(DurationToTarget(), 1)}s";
     }
