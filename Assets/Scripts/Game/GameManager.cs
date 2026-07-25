@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public bool GameStarted { get; private set; }
     public bool TacticalPause { get; private set; }
     public bool OutOfTime { get; private set; }
+    
+    public bool GameOver { get; private set; }
     public float RemainingTime { get; private set; }
     public int PlayerScore { get; private set; }
     public int OpponentScore { get; private set; }
@@ -40,7 +42,6 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        GameStarted = false;
         startGameTimer = zoomInDuration + timeBeforeGameStartAfterZoom;
         instance = this;
         Inputs.Gameplay.ToggleTacticalPause.performed += _ => ToggleTacticalPause();
@@ -51,6 +52,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartLevel();
+    }
+
+    private void StartLevel()
+    {
+        GameStarted = false;
+        GameOver = false;
         mainCamera.EnterLevelZoom(zoomInDuration);
     }
 
@@ -113,13 +121,15 @@ public class GameManager : MonoBehaviour
     }
     
     public void Win()
-    { 
+    {
+        GameOver = true;
         canReload = true;
         OnWin?.Invoke();  
     }
 
     public void Lose()
     {
+        GameOver = true;
         canReload = true;
         OnLose?.Invoke();
     }

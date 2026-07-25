@@ -97,7 +97,8 @@ public abstract class UnitBase : MonoBehaviour
             timerBeforeCanGrabAgain -= Time.deltaTime;
             return;
         }
-		
+
+        if (GameManager.instance.GameOver) return;
         if (!BallInGrabZone()) return;
         if (!CanGrabBall()) return;
         Ball.instance.Grab(this);
