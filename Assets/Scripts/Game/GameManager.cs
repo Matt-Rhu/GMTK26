@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public int PlayerScore { get; private set; }
     public int OpponentScore { get; private set; }
 
+    public int InZoneScore { get; private set; }
+
+    public int OutZoneScore { get; private set; }
+
 
     public delegate void SimpleEvent();
     public event SimpleEvent OnLose;
@@ -21,16 +25,6 @@ public class GameManager : MonoBehaviour
     
     public delegate void TacticalPauseEvent(bool pauseOn);
     public event TacticalPauseEvent OnTacticalPause;
-    
-    
-    [Header("Game Settings")] 
-    [SerializeField] private float allocatedTime = 30;
-    [Space]
-    [SerializeField] private int playerStartScore;
-    [SerializeField] private int opponentStartScore;
-    [Space] 
-    public int inZoneScore = 2;
-    public int outZoneScore = 3;
 
 
     private bool canReload;
@@ -41,10 +35,6 @@ public class GameManager : MonoBehaviour
         instance = this;
         Inputs.Gameplay.ToggleTacticalPause.performed += _ => ToggleTacticalPause();
         Inputs.Gameplay.Reload.performed += _ => ReloadScene();
-        
-        RemainingTime = allocatedTime;
-        PlayerScore = playerStartScore;
-        OpponentScore = opponentStartScore;
         
         Time.timeScale = 1;
     }
@@ -60,6 +50,16 @@ public class GameManager : MonoBehaviour
             Lose();
             //TODO: will need to cleanup the timeout so units and the player can't act when it hits 0, but it's not a defeat until the ball stops moving
         }
+    }
+
+
+    public void InitializeFromStartPositionDatas(float remainingTime, int playerStartScore, int opponentStartScore, int inZoneScore, int outZoneScore)
+    {
+        RemainingTime = remainingTime;
+        PlayerScore = playerStartScore;
+        OpponentScore = opponentStartScore;
+        InZoneScore = inZoneScore;
+        OutZoneScore = outZoneScore;
     }
 
     public void AddScore(int amount)

@@ -131,7 +131,7 @@ public class PlayerUnit : UnitBase
 
     private void Shoot(Vector3 target)
     {
-        var scoreValue = IsInScoreZone() ? GameManager.instance.inZoneScore : GameManager.instance.outZoneScore;
+        var scoreValue = IsInScoreZone() ? GameManager.instance.InZoneScore : GameManager.instance.OutZoneScore;
         Ball.instance.Shoot(target, scoreValue);
     }
 
