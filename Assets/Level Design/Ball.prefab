@@ -51,9 +51,9 @@ MonoBehaviour:
   UnitHoldingIt: {fileID: 0}
   ballSprite: {fileID: 141498618306168824}
   ballOutline: {fileID: 2196081438365935686}
-  heldColor: {r: 0.12156863, g: 0.2901961, b: 0.36078432, a: 0}
-  passedColor: {r: 0.9607843, g: 0.8666667, b: 0.2784314, a: 0}
-  shotColor: {r: 0.7058824, g: 0.29803923, b: 0.1254902, a: 0}
+  heldColor: {r: 0.12156863, g: 0.2901961, b: 0.36078432, a: 1}
+  passedColor: {r: 0.9607843, g: 0.8666667, b: 0.2784314, a: 1}
+  shotColor: {r: 0.7058824, g: 0.29803923, b: 0.1254902, a: 1}
   idleColor: {r: 1, g: 1, b: 1, a: 1}
   debugShotOnClick: 0
   InitialVelocity: 10
