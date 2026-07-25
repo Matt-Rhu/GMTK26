@@ -13,6 +13,14 @@ public class Ball : MonoBehaviour
     [HideInInspector] public int BallScore;
     [HideInInspector] public UnitBase UnitHoldingIt;
 
+    [FoldHeader("Configuration")]
+    [SerializeField] private SpriteRenderer ballSprite;
+    [SerializeField] private SpriteRenderer ballOutline;
+    [FoldHeader("States Colors")]
+    [SerializeField] private Color heldColor;
+    [SerializeField] private Color passedColor;
+    [SerializeField] private Color shotColor;
+    [SerializeField] private Color idleColor;
     // Shot on clic for debug. SHALL BE FALSE FOR RELEASE.
     public bool debugShotOnClick;
 
@@ -22,6 +30,7 @@ public class Ball : MonoBehaviour
     [SerializeField] private float distanceReductionFactorOnLanding = 1.4f;
 
 
+    private float defaultScale = 0f;
     private float realInitialVelocity = 10f;
     private Vector3 velocity = new Vector3(0, 0, 0);
     private Vector3 sourcePosition = new Vector3(0, 0, 0);
@@ -30,6 +39,7 @@ public class Ball : MonoBehaviour
 
     private void Awake()
     {
+        defaultScale = ballSprite.transform.localScale.x;
         realInitialVelocity = 3 * InitialVelocity;
         instance = this;
     }
@@ -47,9 +57,12 @@ public class Ball : MonoBehaviour
 
     private void ActiveBehaviour()
     {
+        UpdateYDepthBasedOnScale();
+        ReColorOutline();
         switch (CurrentState)
         {
             case BallState.Held:
+                DriveTravel();
                 break;
             case BallState.Passed:
             case BallState.Shot:
@@ -65,9 +78,57 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void UpdateYDepthBasedOnScale()
+    {
+        if (ballSprite.transform.localScale.x > 5)
+        {
+            ballSprite.transform.position = new Vector3(ballSprite.transform.position.x, 1.0f, ballSprite.transform.position.z);
+            return;
+        }
+        ballSprite.transform.position = new Vector3(ballSprite.transform.position.x, 0f, ballSprite.transform.position.z);
+    }
+    private void ReColorOutline()
+    {
+        Color newColor;
+        switch (CurrentState)
+        {
+            case BallState.Held:
+                newColor = heldColor;
+                break;
+            case BallState.Passed:
+                newColor = passedColor;
+                break;
+            case BallState.Shot:
+                newColor = shotColor;
+                break;
+            case BallState.Idle:
+            default:
+                newColor = idleColor;
+                break;
+        }
+        ballOutline.color = newColor;
+    }
+    private void DriveTravel()
+    {
+        float parabolProgress = 1.0f - ParabolicInterpolation(Mathf.Repeat(Time.realtimeSinceStartup * 4.0f, 1.0f));
+        ballSprite.transform.localScale = Vector3.one * (defaultScale - parabolProgress * defaultScale / 3.0f);
+    }
+
     private void FreeTravel()
     {
+        // Update ball position
         transform.position += velocity * Time.deltaTime;
+        // Update sprite size based on progress before next bounce.
+        float throwFactor = 1.0f;
+        if (CurrentState == BallState.Shot)
+        {
+            throwFactor = 1.25f;
+        }
+        float parabolProgress = ParabolicInterpolation(Vector3.Distance(sourcePosition, transform.position) / Vector3.Distance(sourcePosition, targetPosition));
+
+        ballSprite.transform.localScale = Vector3.one * (defaultScale + parabolProgress * defaultScale * (velocity.magnitude/realInitialVelocity) * throwFactor);
+
+        
         if ((transform.position - targetPosition).magnitude < 0.1)
         {
             Vector3 newSourcePosition = transform.position;
@@ -84,6 +145,13 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private float ParabolicInterpolation(float x)
+    {
+        if (x < 0) { return 0; }
+        if (x > 1) { return 1; }
+
+        return 4 * x * (1 - x);
+    }
 
     public void Shoot(Vector3 goalPosition, int score)
     {
@@ -139,6 +207,7 @@ public class Ball : MonoBehaviour
 
     public void Grab(UnitBase unit)
     {
+        ballSprite.transform.localScale = Vector3.one * defaultScale;
         UnitHoldingIt = unit;
         UnitHoldingIt.hasBall = true;
         Ball.instance.ChangeState(Ball.BallState.Held);

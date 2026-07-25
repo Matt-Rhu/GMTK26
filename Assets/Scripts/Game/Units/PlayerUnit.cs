@@ -81,7 +81,8 @@ public class PlayerUnit : UnitBase
         // Drag the ball if holding it anyway.
         if (hasBall)
         {
-            Ball.instance.transform.position = transform.position;
+            Vector3 playerDirection = (targetPos - transform.position).normalized * 1.0f;
+            Ball.instance.transform.position = transform.position + playerDirection;
         }
     }
 
@@ -142,6 +143,7 @@ public class PlayerUnit : UnitBase
 
     private void Shoot(Vector3 target)
     {
+        timerBeforeCanGrabAgain = data.grabCooldown;
         Ball.instance.Shoot(target, CalculateScore());
     }
 
@@ -156,6 +158,7 @@ public class PlayerUnit : UnitBase
 
     private void Pass(Vector3 target)
     {
+        timerBeforeCanGrabAgain = data.grabCooldown;
         Ball.instance.Pass(target);
     }
 

@@ -13,7 +13,7 @@ public abstract class UnitBase : MonoBehaviour
 
     private Vector3 moveDir;
     
-    private float timerBeforeCanGrabAgain = -99f;
+    protected float timerBeforeCanGrabAgain = -99f;
     [HideInInspector] public bool hasBall;
 
 
@@ -103,7 +103,6 @@ public abstract class UnitBase : MonoBehaviour
         if (!BallInGrabZone()) return;
         if (!CanGrabBall()) return;
         Ball.instance.Grab(this);
-        timerBeforeCanGrabAgain = data.grabCooldown;
         
         if (data.isOpponent)
             GameManager.instance.Lose();
