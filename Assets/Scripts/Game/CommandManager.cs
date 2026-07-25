@@ -5,10 +5,21 @@ using UnityEngine;
 
 public class CommandManager : MonoBehaviour
 {
+
+    private enum ControlsMode
+    {
+        LEFT_CLICK_ONLY,
+        BOTH_CLICKS
+    }
+
+    [SerializeField] private ControlsMode controlsMode = ControlsMode.LEFT_CLICK_ONLY;
+    [SerializeField] private float MouseDragStartDistanceThreshold = 32f;
+
     private PlayerUnit selectedUnit;
     private bool dragging;
-    private float dragDistance;
-
+    private Vector3 potentialDraggingMouseStart = new Vector3(-9999, -9999, -9999);
+    private Vector3 lastHoveredTargetPosition = new Vector3(0, 0, 0);
+    private GameObject lastHoveredGameObject = null;
 
     private void Awake()
     {
@@ -20,63 +31,120 @@ public class CommandManager : MonoBehaviour
 
     private void Update()
     {
-        if (!dragging) return;
-        
+        if (!GameManager.instance.TacticalPause) return;
+
         RaycastHit rayCastHit = GetMouseRayCastHit();
-        Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
+        if (rayCastHit.transform)
+        {
+            lastHoveredTargetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
+            lastHoveredGameObject = rayCastHit.transform.gameObject;
+        }
+        
+        // In tactical pause, always highlight when hovering a player. If no action has been performed.
+        if (potentialDraggingMouseStart.x <= -9999 && !dragging)
+        {
+            if (lastHoveredGameObject && lastHoveredGameObject.TryGetComponent(out PlayerUnit playerUnit))
+            {
+                selectedUnit = playerUnit;
+                playerUnit.ShowHighlight();
+            } else
+            {
+                TryDeselectSelectedUnit();
+            }
+        }
+        // If mouse have been pressed once but still not dragging, infer if action intended is dragging based on drag start threshold.
+        if (potentialDraggingMouseStart.x > -9999 && !dragging)
+        {
+            if ((Input.mousePosition - potentialDraggingMouseStart).magnitude >= MouseDragStartDistanceThreshold)
+            {
+                dragging = true;
+            }
+        }
+
+        if (!dragging) return;
+  
+
+        
         
         if (selectedUnit)
-            selectedUnit.SetTarget(targetPosition);
+            selectedUnit.SetTarget(lastHoveredTargetPosition);
     }
 
     private void ProcessPressAction()
     {
         if (!GameManager.instance.TacticalPause) return;
-        
-        dragging = true;
-        RaycastHit rayCastHit = GetMouseRayCastHit();
-        GameObject hitGameObject = rayCastHit.transform.gameObject;
-        Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
-        if (hitGameObject.TryGetComponent(out PlayerUnit playerUnit))
-        { // If mouse touch PlayerUnit select it whatever.
-            playerUnit.Select();
-            selectedUnit = playerUnit;
-        }
+
+        // On press, keep mouse position in momery to resolve if it is a drag or a simple point click.
+        potentialDraggingMouseStart = Input.mousePosition;
     }
 
     private void ProcessReleaseAction()
     {
         if (!GameManager.instance.TacticalPause) return;
-        
-        dragging = false;
-        RaycastHit rayCastHit = GetMouseRayCastHit();
-        GameObject hitGameObject = rayCastHit.transform.gameObject;
-        Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);
 
-        // If the Unit on which the mouse has been released is the selected one, reset all commands.
-        if (hitGameObject.TryGetComponent(out PlayerUnit playerUnit) && playerUnit == selectedUnit)
-        {
-            CommandSelectedPlayerUnitToStop();
-            CancelBallHolderThrow();
-        } else if (hitGameObject.TryGetComponent(out Goal goal))
-        {
-            if (selectedUnit == null)
-            {
-                CommandBallHolderToShoot(targetPosition);
-            }
-        } else // Otherwise process the commands as normal.
-        {
-            if (selectedUnit != null)
-            {
-                CommandSelectedPlayerUnitToMove(targetPosition);
-            }
-            else
-            {
-                CommandBallHolderToPass(targetPosition);
-            }
-        }
+        SelectAndRegisterCommand();
+        // Anyway reset dragging & try deselect unit at the end.
+        dragging = false;
+        potentialDraggingMouseStart = new Vector3(-9999, -9999, -9999);
         TryDeselectSelectedUnit();
     }
+
+
+    private void SelectAndRegisterCommand()
+    {
+        RaycastHit rayCastHit = GetMouseRayCastHit();
+        /*GameObject hitGameObject = rayCastHit.transform.gameObject;
+        Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);*/
+
+        // Get release target.
+        lastHoveredGameObject.TryGetComponent(out PlayerUnit playerUnit);
+
+        // If not dragging, try to perform a throw anyway.
+        if (!dragging)
+        {
+            // 
+            if (playerUnit && playerUnit == Ball.instance.UnitHoldingIt)
+            {
+                CancelBallHolderThrow();
+                return;
+            }
+
+            // If the target is a goal, try to perform a Shoot.
+            if (lastHoveredGameObject.TryGetComponent(out Goal goal)) // If target is the goal then its a Shoot.
+            {
+                CommandBallHolderToShoot(lastHoveredTargetPosition);
+                return;
+            }
+
+            // Otherwise try to perform a Pass.
+            CommandBallHolderToPass(lastHoveredTargetPosition);
+            return;
+        }
+
+
+        // Else if dragging and unit is selected, always perform a move command.
+        if (dragging && selectedUnit)
+        {
+            // If playerUnit is selectedUnit, cancel its move command.
+            if (playerUnit && playerUnit == selectedUnit)
+            {
+                CommandSelectedPlayerUnitToStop();
+                return;
+            }
+            CommandSelectedPlayerUnitToMove(lastHoveredTargetPosition);
+            return;
+        }
+
+        // In anycase, if releasing action on the selected playerUnit, cancel its commands.
+        if (playerUnit && playerUnit == selectedUnit)
+        {
+            
+            
+        }
+
+        
+    }
+
 
     private RaycastHit GetMouseRayCastHit()
     {
@@ -91,7 +159,7 @@ public class CommandManager : MonoBehaviour
     {
         if (selectedUnit)
         {
-            selectedUnit.Deselect();
+            selectedUnit.HideHightlight();
             selectedUnit = null;
         }
     }
@@ -156,5 +224,4 @@ public class CommandManager : MonoBehaviour
             TryDeselectSelectedUnit();
         }
     }
-
 }

@@ -46,7 +46,8 @@ public class TargetDisplay : MonoBehaviour
         
         // place line points and cursor
         line.SetPosition(0, unit.transform.position);
-        actualCursor.transform.position = TargetPosition();
+        Vector3 targetPosition = TargetPosition();
+        actualCursor.transform.position = new Vector3(targetPosition.x, 1, targetPosition.z);
         var dir = actualCursor.transform.position - unit.transform.position;
         var offsetFromCursor = isMoveDisplay ? 0.2f : 0.7f;
         line.SetPosition(1, unit.transform.position + dir.normalized * (dir.magnitude - offsetFromCursor));
