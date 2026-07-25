@@ -68,6 +68,10 @@ PrefabInstance:
       value: Ball
       objectReference: {fileID: 0}
     - target: {fileID: 141498616849614296, guid: f2d4cadd84ce0c549993fc90df7f79b1, type: 3}
+      propertyPath: InitialVelocity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 141498616849614296, guid: f2d4cadd84ce0c549993fc90df7f79b1, type: 3}
       propertyPath: shotForceFactor
       value: 4
       objectReference: {fileID: 0}

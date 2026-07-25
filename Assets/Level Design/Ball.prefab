@@ -50,7 +50,7 @@ MonoBehaviour:
   BallScore: 0
   UnitHoldingIt: {fileID: 0}
   debugShotOnClick: 0
-  InitialVelocity: 8
+  InitialVelocity: 10
   speedReductionFactorOnLanding: 1.5
   distanceReductionFactorOnLanding: 2.2
 --- !u!135 &5178752523461371092
