@@ -46,13 +46,18 @@ public class PlayerUnit : UnitBase
     protected override void Start()
     {
         base.Start();
-        Deselect();
+        HideHightlight();
     }
     
     protected override void ActiveBehaviour()
     {
         base.ActiveBehaviour();
         
+        // Always hide Highlight when active.
+        if (selectionFX.activeInHierarchy)
+        {
+            HideHightlight();
+        }
         // Process next throw command.
         switch (nextThrowCommand)
         {
@@ -74,13 +79,13 @@ public class PlayerUnit : UnitBase
         }
     }
 
-    public void Select()
+    public void ShowHighlight()
     {
         selectionFX.SetActive(true);
     }
 
 
-    public void Deselect()
+    public void HideHightlight()
     {
         selectionFX.SetActive(false);
     }
