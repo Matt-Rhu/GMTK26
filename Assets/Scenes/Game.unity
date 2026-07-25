@@ -220,7 +220,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 724388598}
-  - {fileID: 1573530733}
+  - {fileID: 1322882633}
   - {fileID: 2032808402}
   - {fileID: 520304234}
   - {fileID: 1852339276}
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 963194230}
-  zoomInDuration: 0
+  zoomInDuration: 2
   timeBeforeGameStartAfterZoom: 1
   startWithTutorial: 0
 --- !u!1 &257220674
@@ -643,7 +643,7 @@ Transform:
   m_GameObject: {fileID: 724388597}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -20, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 1072.54, y: 1072.54, z: 1072.54}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 101731927}
@@ -690,12 +690,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7e527732750889941ab4da29014ec6fc, type: 3}
-  m_Color: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Color: {r: 0.12156863, g: 0.2901961, b: 0.36078432, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.68, y: 4.32}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1342,6 +1342,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253422179}
   m_CullTransparentMesh: 1
+--- !u!1 &1322882632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1322882633}
+  m_Layer: 0
+  m_Name: TerrainRender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1322882633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322882632}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1.0752687, y: 1.0752687, z: 1.0752687}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1573530733}
+  m_Father: {fileID: 101731927}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1348840676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,7 +1575,7 @@ GameObject:
   - component: {fileID: 1573530733}
   - component: {fileID: 1573530734}
   m_Layer: 0
-  m_Name: TerrainMockup
+  m_Name: TerrainGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1556,13 +1588,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573530732}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -1.2, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4.9999995, y: 4.9999995, z: 4.9999995}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 101731927}
-  m_RootOrder: 1
+  m_Father: {fileID: 1322882633}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &1573530734
 SpriteRenderer:
@@ -1605,7 +1637,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f1f5d018371f8574e9d0acdd9a9d116a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af716dc5b0ca9b44e877e89cd4414f7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

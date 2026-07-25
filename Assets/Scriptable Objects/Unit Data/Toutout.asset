@@ -22,7 +22,7 @@ MonoBehaviour:
   isOpponent: 1
   behaviour: 1
   targetRefreshRate: 0.5
-  sprite: {fileID: 21300000, guid: 02b7a7dad2f54724384b78031690a99e, type: 3}
+  sprite: {fileID: 21300000, guid: 8d41ab8b68b6bfe4691fec50adfae653, type: 3}
   moveDisplayColour:
     serializedVersion: 2
     key0: {r: 0.7058824, g: 0.1254902, b: 0.16470589, a: 1}
