@@ -63,14 +63,6 @@ public class Ball : MonoBehaviour
 
     private void FreeTravel()
     {
-        // While traveling, check if land in goal.
-        int count = Physics.OverlapSphereNonAlloc(transform.position, 0.1f, new Collider[1], LayerMask.GetMask("Goal"));
-        if (count > 0)
-        {
-            GameManager.instance.Win();
-        }
-
-
         transform.position += velocity * Time.deltaTime;
         if ((transform.position - targetPosition).magnitude < 0.1)
         {
@@ -129,10 +121,9 @@ public class Ball : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit raycastHit = new RaycastHit();
 
             int layerMask = 1 << 8;
-            if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(raycast, out var raycastHit, Mathf.Infinity, layerMask))
             {
                 Vector3 passTargetPosition = new Vector3(raycastHit.point.x, 0, raycastHit.point.z);
                 Pass(passTargetPosition);

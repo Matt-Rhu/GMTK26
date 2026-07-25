@@ -15,13 +15,17 @@ public class TargetDisplay : MonoBehaviour
     [SerializeField] private LineRenderer line;
     [FormerlySerializedAs("cursor")] [SerializeField] private SpriteRenderer throwCursor;
     [SerializeField] private SpriteRenderer moveCursor;
-    private SpriteRenderer actualCursor;
+    
+    [Space]
+    [SerializeField] private TMP_Text shootText;
+    [HideWithValue(nameof(displayType), 1, false)] [SerializeField] private float shootTextOffset = 2.5f;
 
     [Space]
     [SerializeField] private bool displayTimeToDestination = true;
-    [HideWithValue(nameof(displayTimeToDestination))] [SerializeField] private TMP_Text text;
+    [FormerlySerializedAs("text")] [HideWithValue(nameof(displayTimeToDestination))] [SerializeField] private TMP_Text durationText;
     [HideWithValue(nameof(displayTimeToDestination))] [SerializeField] private float textOffset = 1.5f;
     
+    private SpriteRenderer actualCursor;
 
 
     private void Start()
@@ -56,14 +60,8 @@ public class TargetDisplay : MonoBehaviour
         if (isMoveDisplay)
            actualCursor.transform.parent.LookAt(actualCursor.transform.position + dir);
         
-        // if duration display, duration stuff
-        if (!displayTimeToDestination)
-        {
-            text.gameObject.SetActive(false);
-            return;
-        }
-        text.transform.position = line.GetPosition(1) + new Vector3(textOffset, 2, 0);
-        text.text = $"{NumberFormatting.Decimals(DurationToTarget(), 1)}s";
+        SetDurationDisplay();
+        SetScoreDisplay();
     }
 
     private Vector3 TargetPosition()
@@ -71,6 +69,35 @@ public class TargetDisplay : MonoBehaviour
         if (displayType is DisplayType.Movement)
             return unit.GetTarget();
         return ((PlayerUnit)unit).GetThrowTarget();
+    }
+
+    private void SetScoreDisplay()
+    {
+        shootText.gameObject.SetActive(false);
+        
+        if (displayType is DisplayType.Movement) return;
+        if (unit.data.isOpponent) return;
+        if (((PlayerUnit)unit).GetThrowCommand() is not PlayerUnit.ThrowCommand.SHOOT) return;
+
+        shootText.gameObject.SetActive(true);
+        
+        var points = ((PlayerUnit)unit).CalculateScore();
+        shootText.text = $"+{points}pts";
+        if (points == 0)
+            shootText.text = "Miss";
+        
+        shootText.transform.position = Goal.instance.transform.position + new Vector3(shootTextOffset, 0, 0);
+    }
+
+    private void SetDurationDisplay()
+    {
+        if (!displayTimeToDestination)
+        {
+            durationText.gameObject.SetActive(false);
+            return;
+        }
+        durationText.transform.position = TargetPosition() + new Vector3(textOffset, 2, 0);
+        durationText.text = $"{NumberFormatting.Decimals(DurationToTarget(), 1)}s";
     }
 
     private float DurationToTarget()

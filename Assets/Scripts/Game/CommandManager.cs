@@ -6,13 +6,13 @@ using UnityEngine;
 public class CommandManager : MonoBehaviour
 {
 
-    private enum ControlsMode
-    {
-        LEFT_CLICK_ONLY,
-        BOTH_CLICKS
-    }
-
-    [SerializeField] private ControlsMode controlsMode = ControlsMode.LEFT_CLICK_ONLY;
+    // private enum ControlsMode
+    // {
+    //     LEFT_CLICK_ONLY,
+    //     BOTH_CLICKS
+    // }
+    //
+    // [SerializeField] private ControlsMode controlsMode = ControlsMode.LEFT_CLICK_ONLY;
     [SerializeField] private float MouseDragStartDistanceThreshold = 32f;
 
     private PlayerUnit selectedUnit;
@@ -92,12 +92,15 @@ public class CommandManager : MonoBehaviour
 
     private void SelectAndRegisterCommand()
     {
-        RaycastHit rayCastHit = GetMouseRayCastHit();
+        //RaycastHit rayCastHit = GetMouseRayCastHit();
         /*GameObject hitGameObject = rayCastHit.transform.gameObject;
         Vector3 targetPosition = new Vector3(rayCastHit.point.x, 0, rayCastHit.point.z);*/
 
+        PlayerUnit playerUnit = null;
+        
         // Get release target.
-        lastHoveredGameObject.TryGetComponent(out PlayerUnit playerUnit);
+        if (lastHoveredGameObject)
+            lastHoveredGameObject.TryGetComponent(out playerUnit);
 
         // If not dragging, try to perform a throw anyway.
         if (!dragging)
@@ -110,10 +113,13 @@ public class CommandManager : MonoBehaviour
             }
 
             // If the target is a goal, try to perform a Shoot.
-            if (lastHoveredGameObject.TryGetComponent(out Goal goal)) // If target is the goal then its a Shoot.
+            if (lastHoveredGameObject)
             {
-                CommandBallHolderToShoot(lastHoveredTargetPosition);
-                return;
+                if (lastHoveredGameObject.TryGetComponent(out Goal goal)) // If target is the goal then its a Shoot.
+                {
+                    CommandBallHolderToShoot(lastHoveredTargetPosition);
+                    return;
+                }
             }
 
             // Otherwise try to perform a Pass.

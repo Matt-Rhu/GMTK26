@@ -35,6 +35,12 @@ public class PlayerUnit : UnitBase
         var count = Physics.OverlapSphereNonAlloc(transform.position, 0.1f, new Collider[1], LayerMask.GetMask("ScoreZone"));
         return count > 0;
     }
+
+    private bool IsOnSweetSpot()
+    {
+        var ray = new Ray(transform.position, Vector3.down);
+        return Physics.Raycast(ray, Mathf.Infinity, LayerMask.GetMask("ScoreZone"));
+    }
     
     protected override void OnDrawGizmosSelected()
     {
@@ -136,8 +142,16 @@ public class PlayerUnit : UnitBase
 
     private void Shoot(Vector3 target)
     {
-        var scoreValue = IsInScoreZone() ? GameManager.instance.InZoneScore : GameManager.instance.OutZoneScore;
-        Ball.instance.Shoot(target, scoreValue);
+        Ball.instance.Shoot(target, CalculateScore());
+    }
+
+    public int CalculateScore()
+    {
+        if (IsInScoreZone())
+            return GameManager.instance.InZoneScore;
+        if (IsOnSweetSpot())
+            return GameManager.instance.OutZoneScore;
+        return 0;
     }
 
     private void Pass(Vector3 target)

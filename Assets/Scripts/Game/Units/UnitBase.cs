@@ -71,7 +71,7 @@ public abstract class UnitBase : MonoBehaviour
             var pos = trueTarget + rnd;
 
             var ray = new Ray(pos, Vector3.down);
-            if (Physics.Raycast(ray, out var raycastHit, Mathf.Infinity, LayerMask.GetMask("Terrain")))
+            if (Physics.Raycast(ray, Mathf.Infinity, LayerMask.GetMask("Terrain")))
                 targetPos = pos;
             else
                 continue;
