@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         ScoreInsuficent
     }
 
-    public LoseCondition lastLoseConditionRegistered;
+    [HideInInspector] public LoseCondition lastLoseConditionRegistered;
     public bool GameStarted { get; private set; }
     public bool TacticalPause { get; private set; }
     private bool outOfTime;
