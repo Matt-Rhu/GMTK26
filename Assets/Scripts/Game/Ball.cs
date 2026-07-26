@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
 {
     public static Ball instance;
 
-    public enum BallState { Held, Passed, Shot, Idle };
+    public enum BallState { Held, Passed, Shot, Reflected, Idle };
     public BallState CurrentState { get; private set; } = BallState.Idle;
 
     [HideInInspector] public int BallScore;
@@ -64,6 +64,7 @@ public class Ball : MonoBehaviour
                 break;
             case BallState.Passed:
             case BallState.Shot:
+            case BallState.Reflected:
                 FreeTravel();
                 break;
             case BallState.Idle:
@@ -78,12 +79,12 @@ public class Ball : MonoBehaviour
 
     private void UpdateYDepthBasedOnScale()
     {
-        if (ballSprite.transform.localScale.x > 5)
+        float yDepth = 0f;
+        if (CurrentState == BallState.Shot)
         {
-            ballSprite.transform.position = new Vector3(ballSprite.transform.position.x, 1.0f, ballSprite.transform.position.z);
-            return;
+            yDepth = 20f;
         }
-        ballSprite.transform.position = new Vector3(ballSprite.transform.position.x, 0f, ballSprite.transform.position.z);
+        ballSprite.transform.position = new Vector3(ballSprite.transform.position.x, yDepth, ballSprite.transform.position.z);
     }
     private void ReColorOutline()
     {
@@ -94,6 +95,7 @@ public class Ball : MonoBehaviour
                 newColor = heldColor;
                 break;
             case BallState.Passed:
+            case BallState.Reflected:
                 newColor = passedColor;
                 break;
             case BallState.Shot:
@@ -119,7 +121,7 @@ public class Ball : MonoBehaviour
         // Update ball position
         transform.position += velocity * Time.deltaTime;
         // Update sprite size based on progress before next bounce.
-        float throwFactor = 1.0f;
+        float throwFactor = 0.75f;
         if (CurrentState == BallState.Shot)
         {
             throwFactor = 1.25f;
@@ -129,8 +131,13 @@ public class Ball : MonoBehaviour
         ballSprite.transform.localScale = Vector3.one * (defaultScale + parabolProgress * defaultScale * (velocity.magnitude/realInitialVelocity) * throwFactor);
 
         
-        if ((transform.position - targetPosition).magnitude < 0.1)
+        if ((transform.position - targetPosition).magnitude < 0.1) // Bounce
         {
+            // If Reflected, toggle to Passed on first bounce.
+            if (CurrentState == BallState.Reflected)
+            {
+                ChangeState(BallState.Passed);
+            }
             Vector3 newSourcePosition = transform.position;
             Vector3 newTargetPosition = newSourcePosition + (targetPosition - sourcePosition) / distanceReductionFactorOnLanding;
             Vector3 newVelocity = (newTargetPosition - newSourcePosition).normalized * velocity.magnitude / speedReductionFactorOnLanding;
@@ -147,8 +154,21 @@ public class Ball : MonoBehaviour
 
     private float ParabolicInterpolation(float x)
     {
-        if (x < 0) { return 0; }
-        if (x > 1) { return 1; }
+        float minReturnValue = 0f;
+        float maxReturnValue = 1f;
+        // Remap input value depending on the state.
+        /*if (CurrentState == BallState.Shot)
+        {
+            x = x / 2f;
+            maxReturnValue = 0.5f;
+        }*/
+        if (CurrentState == BallState.Reflected)
+        {
+            x = 0.5f + x / 2f;
+            minReturnValue = 0.5f;
+        }
+        if (x < 0) { return minReturnValue; }
+        if (x > 1) { return maxReturnValue; }
 
         return 4 * x * (1 - x);
     }

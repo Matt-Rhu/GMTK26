@@ -47,14 +47,18 @@ public class TargetDisplay : MonoBehaviour
         
         if (!isMoveDisplay)
             ToggleRend(((PlayerUnit)unit).GetThrowCommand() is not PlayerUnit.ThrowCommand.NONE);
-        
+
         // place line points and cursor
-        line.SetPosition(0, unit.transform.position);
+        float lineYDepth = 1f;
+        Vector3 lineStartPosition = unit.transform.position;
+        line.SetPosition(0, new Vector3(lineStartPosition.x, lineYDepth, lineStartPosition.z));
         Vector3 targetPosition = TargetPosition();
-        actualCursor.transform.position = new Vector3(targetPosition.x, 1, targetPosition.z);
-        var dir = actualCursor.transform.position - unit.transform.position;
+        actualCursor.transform.position = new Vector3(targetPosition.x, lineYDepth, targetPosition.z);
+        Vector3 dir = actualCursor.transform.position - unit.transform.position;
+        dir.y = 0;
         var offsetFromCursor = isMoveDisplay ? 0.2f : 0.7f;
-        line.SetPosition(1, unit.transform.position + dir.normalized * (dir.magnitude - offsetFromCursor));
+        Vector3 lineEndPosition = unit.transform.position + dir.normalized * (dir.magnitude - offsetFromCursor);
+        line.SetPosition(1, new Vector3(lineEndPosition.x, lineYDepth, lineEndPosition.z));
         
         // if movement display, arrow faces direction
         if (isMoveDisplay)

@@ -18,11 +18,11 @@ MonoBehaviour:
   zoneRadius: 1
   ballSeekingRadius: 2.5
   grabCooldown: 3
-  canGrabBallInStates: 030000000100000002000000
+  canGrabBallInStates: 03000000010000000400000002000000
   isOpponent: 1
   behaviour: 2
   targetRefreshRate: 0.5
-  sprite: {fileID: 21300000, guid: cc2eae5d20ef48b468ff93d9efbbdf2c, type: 3}
+  sprite: {fileID: 21300000, guid: de454704144de8c48891a62974583a92, type: 3}
   moveDisplayColour:
     serializedVersion: 2
     key0: {r: 0.7058824, g: 0.1254902, b: 0.16470589, a: 1}

@@ -18,7 +18,7 @@ MonoBehaviour:
   zoneRadius: 1
   ballSeekingRadius: 2.5
   grabCooldown: 3
-  canGrabBallInStates: 03000000
+  canGrabBallInStates: 04000000
   isOpponent: 1
   behaviour: 3
   targetRefreshRate: 0.5

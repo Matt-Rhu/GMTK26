@@ -308,6 +308,10 @@ PrefabInstance:
       propertyPath: displayTimeToDestination
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7952234921698436388, guid: f351a2b4ece5c074a994489caa284356, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f351a2b4ece5c074a994489caa284356, type: 3}
 --- !u!4 &5159619550084891033 stripped
