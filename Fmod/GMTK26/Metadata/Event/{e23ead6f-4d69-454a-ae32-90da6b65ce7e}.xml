@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{e23ead6f-4d69-454a-ae32-90da6b65ce7e}">
+		<property name="note">
+			<value>entrée de la tactical pause</value>
+		</property>
 		<property name="name">
 			<value>ChalkLong</value>
 		</property>

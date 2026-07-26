@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{5dcb5685-d7e7-42d0-b0b8-44b6d503f64e}">
+		<property name="note">
+			<value>on miss</value>
+		</property>
 		<property name="name">
 			<value>HoopMiss</value>
 		</property>

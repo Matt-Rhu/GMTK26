@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{48187ab7-53c9-4e97-949d-161730317f6d}">
+		<property name="note">
+			<value>quand le balon tape le sol, dans ball.cs</value>
+		</property>
 		<property name="name">
 			<value>Bounce</value>
 		</property>

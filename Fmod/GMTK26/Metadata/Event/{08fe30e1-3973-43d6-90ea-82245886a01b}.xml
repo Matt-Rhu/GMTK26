@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{08fe30e1-3973-43d6-90ea-82245886a01b}">
+		<property name="note">
+			<value>chaque trait dessiné / directive donnée</value>
+		</property>
 		<property name="name">
 			<value>ChalkShort</value>
 		</property>

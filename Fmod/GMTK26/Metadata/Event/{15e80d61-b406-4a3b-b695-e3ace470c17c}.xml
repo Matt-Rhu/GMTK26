@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{15e80d61-b406-4a3b-b695-e3ace470c17c}">
+		<property name="note">
+			<value>avant que le match commence?
+pas prio</value>
+		</property>
 		<property name="name">
 			<value>OrganAnnouncement</value>
 		</property>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{72c2273b-93f3-4a60-911c-a94d435afdf2}">
+		<property name="note">
+			<value>quand attrape la balle</value>
+		</property>
 		<property name="name">
 			<value>Catch</value>
 		</property>

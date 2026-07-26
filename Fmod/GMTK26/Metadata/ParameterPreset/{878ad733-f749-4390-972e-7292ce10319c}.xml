@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{878ad733-f749-4390-972e-7292ce10319c}">
+		<property name="name">
+			<value>AmbienceFade</value>
+		</property>
+		<relationship name="folder">
+			<destination>{94286a9e-e47a-495f-a293-a1278cfcce9a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{a6448189-5e43-4447-b853-ce362626179a}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{a6448189-5e43-4447-b853-ce362626179a}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

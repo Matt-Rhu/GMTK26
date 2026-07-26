@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{222a5206-0bfc-4fc3-9402-ae737a2c590b}">
+		<property name="note">
+			<value>quand unit change de direction, à tester</value>
+		</property>
 		<property name="name">
 			<value>SneakerSqueak</value>
 		</property>
