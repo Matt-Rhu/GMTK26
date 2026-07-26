@@ -41,6 +41,26 @@ public class PlayerUnit : UnitBase
         var ray = new Ray(transform.position, Vector3.down);
         return Physics.Raycast(ray, Mathf.Infinity, LayerMask.GetMask("ScoreZone"));
     }
+
+    private int GetSweetSpotMaxScore()
+    {
+        int result = 0;
+        Ray raycast = new Ray(transform.position, Vector3.down);
+        RaycastHit[] raycastHits = Physics.RaycastAll(raycast, Mathf.Infinity, LayerMask.GetMask("ScoreZone"));
+        print(raycastHits);
+        foreach (RaycastHit raycastHit in raycastHits)
+        {
+            if (raycastHit.transform != null)
+            {
+                GameObject hitGameObject = raycastHit.transform.gameObject;
+                if (hitGameObject.TryGetComponent(out SweetSpot sweetSpot))
+                {
+                    result = Math.Max(result, sweetSpot.Score);
+                }
+            }
+        }
+        return result;
+    }
     
     protected override void OnDrawGizmosSelected()
     {
@@ -142,11 +162,7 @@ public class PlayerUnit : UnitBase
 
     public int CalculateScore()
     {
-        if (IsInScoreZone())
-            return GameManager.instance.InZoneScore;
-        if (IsOnSweetSpot())
-            return GameManager.instance.OutZoneScore;
-        return 0;
+        return GetSweetSpotMaxScore();
     }
 
     private void Pass(Vector3 target)
