@@ -98,8 +98,9 @@ public class GameManager : MonoBehaviour
     {
         // To not do anything before the game start.
         if (!GameStarted) return;
-
+        if (GameOver) return;
         if (TacticalPause) return;
+        
         RemainingTime -= Time.deltaTime;
         RemainingTime = Mathf.Clamp(RemainingTime, 0, Mathf.Infinity);
         
