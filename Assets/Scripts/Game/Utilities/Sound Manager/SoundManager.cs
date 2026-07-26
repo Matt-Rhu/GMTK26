@@ -18,9 +18,9 @@ public class SoundManager : DontDestroySingleton<SoundManager>
     
     private int instanceIndex;
 
-    [Header("Global Sound Refs")] 
-    public SoundReference animSkipSound;
-    public SoundReference hoverOrSelectSound, pressSound;
+    // [Header("Global Sound Refs")] 
+    // public SoundReference animSkipSound;
+    // public SoundReference hoverOrSelectSound, pressSound;
 
     //If we end up having a lot of sounds and levels and it gets annoying to handle them all one by one, maybe consider a tag system, with like all the environment sounds and stuff
 

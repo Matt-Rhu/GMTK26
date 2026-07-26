@@ -81,7 +81,7 @@ public abstract class UIAnimSequencePlayer : UIAnimations
             toRemove.Add(oseq.Key);
         }
         StartCoroutine(FinishSkip(toRemove));
-        if (stoppedSound) RuntimeManager.PlayOneShot(SoundManager.instance.animSkipSound.Ref);
+        //if (stoppedSound) RuntimeManager.PlayOneShot(SoundManager.instance.animSkipSound.Ref);
     }
 
     private IEnumerator FinishSkip(List<int> toRemove)
