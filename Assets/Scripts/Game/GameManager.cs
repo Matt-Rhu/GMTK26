@@ -53,6 +53,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoundReference buzzer;
     [SerializeField] private SoundReference crowd;
     [SerializeField] private SoundReference music;
+    [SerializeField] private SoundReference organAnnouncement;
+    [SerializeField] private SoundReference scoreCheer;
 
     public delegate void SimpleEvent();
     public event SimpleEvent OnLose;
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartLevel();
+        RuntimeManager.PlayOneShot(organAnnouncement.Ref);
     }
 
     private void StartLevel()
@@ -85,6 +88,7 @@ public class GameManager : MonoBehaviour
         GameOver = false;
         mainCamera.EnterLevelZoom(zoomInDuration);
         StartCoroutine(StartDelay());
+        
         SoundManager.instance.StartInstance(crowd);
         SoundManager.instance.SetInstanceParameter(crowd, 0);
         SoundManager.instance.SetInstanceParameter(music, 0);
@@ -134,6 +138,9 @@ public class GameManager : MonoBehaviour
         PlayerScore += amount;
         if (PlayerScore > OpponentScore)
             SoundManager.instance.SetInstanceParameter(music, 1);
+        
+        if (amount > 0)
+            RuntimeManager.PlayOneShot(scoreCheer.Ref);
     }
 
     public void ToggleTacticalPause()

@@ -76,7 +76,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<destination>{033ab141-c67e-4574-be41-45e203f025f0}</destination>
 		</relationship>
 		<relationship name="modules">
-			<destination>{04f04700-8353-41ae-bf56-7f351f40102d}</destination>
+			<destination>{8e7e25c2-41b0-449b-ad49-74d3b2103cb7}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{c6a26d6e-f26e-4123-b49d-0bcf69bbb8a7}</destination>
@@ -100,8 +100,8 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 	</object>
 	<object class="Timeline" id="{786c3d11-dcbc-491b-a068-3d4dd09709b5}">
 		<relationship name="modules">
-			<destination>{04f04700-8353-41ae-bf56-7f351f40102d}</destination>
 			<destination>{3045d38a-2826-4858-8f68-7528ae9c1a52}</destination>
+			<destination>{8e7e25c2-41b0-449b-ad49-74d3b2103cb7}</destination>
 		</relationship>
 		<relationship name="markers">
 			<destination>{444b5219-e121-491c-90e9-d935edc3b990}</destination>
@@ -142,18 +142,18 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<destination>{cadc0afd-89e4-4f0e-bf7e-469cbb553b09}</destination>
 		</relationship>
 	</object>
-	<object class="SingleSound" id="{04f04700-8353-41ae-bf56-7f351f40102d}">
+	<object class="SingleSound" id="{8e7e25c2-41b0-449b-ad49-74d3b2103cb7}">
 		<property name="length">
 			<value>66.533854875283453</value>
 		</property>
 		<relationship name="fadeInCurve">
-			<destination>{ef71d2d5-6a87-4c9d-97b6-4663aa35e1d3}</destination>
+			<destination>{902c6015-af4c-4fd3-b979-fa8bec4d35bd}</destination>
 		</relationship>
 		<relationship name="fadeOutCurve">
-			<destination>{65d91fb6-71fc-4a93-b126-1da53f2fb72f}</destination>
+			<destination>{87d1d47b-c936-4aec-846c-005ff729d55a}</destination>
 		</relationship>
 		<relationship name="audioFile">
-			<destination>{381f0de8-27f4-4139-b310-b0f55f91e0b4}</destination>
+			<destination>{3d387ac3-c57c-4cdc-8434-222d8343d4b2}</destination>
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{c6a26d6e-f26e-4123-b49d-0bcf69bbb8a7}">
@@ -256,20 +256,20 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 	</object>
 	<object class="MixerBusPanner" id="{ea28b0d0-a0e7-495b-bc07-631444032240}" />
 	<object class="MixerBusFader" id="{06e6f448-b7e8-41ad-b883-de673f353c38}" />
-	<object class="FadeCurve" id="{ef71d2d5-6a87-4c9d-97b6-4663aa35e1d3}">
+	<object class="FadeCurve" id="{902c6015-af4c-4fd3-b979-fa8bec4d35bd}">
 		<relationship name="startPoint">
-			<destination>{1745a9d3-ca7f-4612-8972-860739ac7ad0}</destination>
+			<destination>{d47d35a6-a110-4713-8cbe-ecbfe31cceca}</destination>
 		</relationship>
 		<relationship name="endPoint">
-			<destination>{838d5a5f-279e-4ccc-a0df-8e9e9f6589eb}</destination>
+			<destination>{cb493a2a-c2ac-4ca2-8ee2-f8306acd8cdc}</destination>
 		</relationship>
 	</object>
-	<object class="FadeCurve" id="{65d91fb6-71fc-4a93-b126-1da53f2fb72f}">
+	<object class="FadeCurve" id="{87d1d47b-c936-4aec-846c-005ff729d55a}">
 		<relationship name="startPoint">
-			<destination>{1764a6b7-e7f1-4a3c-9089-80c9f7eb98ee}</destination>
+			<destination>{2389ddcb-0269-478c-ba39-e1ab5343da4e}</destination>
 		</relationship>
 		<relationship name="endPoint">
-			<destination>{9d44239b-5bee-4970-bcca-1ce878344216}</destination>
+			<destination>{246e356c-41c0-4d05-be4c-c2e119431d97}</destination>
 		</relationship>
 	</object>
 	<object class="Automator" id="{cadc0afd-89e4-4f0e-bf7e-469cbb553b09}">
@@ -343,7 +343,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<destination>{f763ee8c-7cb3-4387-86fb-343f87839b6b}</destination>
 		</relationship>
 	</object>
-	<object class="AutomationPoint" id="{1745a9d3-ca7f-4612-8972-860739ac7ad0}">
+	<object class="AutomationPoint" id="{d47d35a6-a110-4713-8cbe-ecbfe31cceca}">
 		<property name="position">
 			<value>0</value>
 		</property>
@@ -354,15 +354,15 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>-0.2547189</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{838d5a5f-279e-4ccc-a0df-8e9e9f6589eb}">
+	<object class="AutomationPoint" id="{cb493a2a-c2ac-4ca2-8ee2-f8306acd8cdc}">
 		<property name="position">
-			<value>4</value>
+			<value>5</value>
 		</property>
 		<property name="value">
 			<value>1</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{1764a6b7-e7f1-4a3c-9089-80c9f7eb98ee}">
+	<object class="AutomationPoint" id="{2389ddcb-0269-478c-ba39-e1ab5343da4e}">
 		<property name="position">
 			<value>64</value>
 		</property>
@@ -373,7 +373,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>0.25471893</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{9d44239b-5bee-4970-bcca-1ce878344216}">
+	<object class="AutomationPoint" id="{246e356c-41c0-4d05-be4c-c2e119431d97}">
 		<property name="position">
 			<value>66.533854875283453</value>
 		</property>
