@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{2f002312-ec0d-49a5-8883-965b6a5400a0}">
+		<property name="assetPath">
+			<value>crowd_cheering.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>204.07467120181406</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9fb7ef29-eac2-4e8e-ad6d-01160ebaa1d4}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{45aad393-5691-4ef1-915d-ef73c24509d9}">
+		<property name="assetPath">
+			<value>hoop_3.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3197959183673469</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9fb7ef29-eac2-4e8e-ad6d-01160ebaa1d4}</destination>
+		</relationship>
+	</object>
+</objects>

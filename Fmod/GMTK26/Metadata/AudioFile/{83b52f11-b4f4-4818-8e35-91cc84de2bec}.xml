@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{83b52f11-b4f4-4818-8e35-91cc84de2bec}">
+		<property name="assetPath">
+			<value>chalk_1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3715646258503402</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9fb7ef29-eac2-4e8e-ad6d-01160ebaa1d4}</destination>
+		</relationship>
+	</object>
+</objects>
