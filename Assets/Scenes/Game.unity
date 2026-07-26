@@ -286,6 +286,7 @@ MonoBehaviour:
   whistle: {fileID: 11400000, guid: 22ba8942ed284cb49be3ee01a2979405, type: 2}
   buzzer: {fileID: 11400000, guid: b46d9d46201c3ce488b13fbf8bd3f3d9, type: 2}
   crowd: {fileID: 11400000, guid: c92fc4f74a4fc3a499264f426aa81e51, type: 2}
+  music: {fileID: 11400000, guid: 3ade97d8ffad6fc4093b9c209128db05, type: 2}
 --- !u!1 &520304233
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +407,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1665595497}
     m_Modifications:
+    - target: {fileID: 439875963390296631, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1056467048769147824, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6261424784243466825, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -453,6 +462,10 @@ PrefabInstance:
     - target: {fileID: 6261424784243466830, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
       propertyPath: m_Name
       value: NewStartPosition
+      objectReference: {fileID: 0}
+    - target: {fileID: 8180633905431143728, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74505457ec98c6b4c97fe943c1ec69c0, type: 3}
