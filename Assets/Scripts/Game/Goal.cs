@@ -22,6 +22,8 @@ public class Goal : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Ball")) return;
+
+        if (Ball.instance.CurrentState is not Ball.BallState.Shot) return;
         
         SendBallBack();
 
