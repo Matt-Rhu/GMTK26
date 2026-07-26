@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 3
   directionInterpolationSpeed: 2.5
   idleMoveRadius: 2
-  zoneRadius: 1
+  zoneRadius: 0.5
   ballSeekingRadius: 2.5
   grabCooldown: 3
   canGrabBallInStates: 04000000

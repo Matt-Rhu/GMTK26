@@ -111,7 +111,7 @@ public class TargetDisplay : MonoBehaviour
         if (points == 0)
             shootText.text = "Miss";
         
-        shootText.transform.position = Goal.instance.transform.position + new Vector3(shootTextOffset, 0, 0);
+        shootText.transform.position = Goal.instance.transform.position + new Vector3(shootTextOffset, 5, 0);
     }
 
     private void SetDurationDisplay()

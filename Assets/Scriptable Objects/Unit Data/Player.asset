@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   directionInterpolationSpeed: 2.5
-  idleMoveRadius: 2
-  zoneRadius: 1.3
+  idleMoveRadius: 1
+  zoneRadius: 1.4
   ballSeekingRadius: 2.5
   grabCooldown: 0.5
   canGrabBallInStates: 0100000004000000
