@@ -170,21 +170,29 @@ public class GameManager : MonoBehaviour
     
     public void Win()
     {
-        GameOver = true;
-        canReload = true;
-        OnWin?.Invoke(); 
+        if (!GameOver)
+        {
+            GameOver = true;
+            canReload = true;
+            OnWin?.Invoke();
+
+            SoundManager.instance.SetInstanceParameter(crowd, 1);
+        }
         
-        SoundManager.instance.SetInstanceParameter(crowd, 1);
     }
 
     public void Lose(LoseCondition loseCondition)
     {
-        lastLoseConditionRegistered = loseCondition;
-        GameOver = true;
-        canReload = true;
-        OnLose?.Invoke();
+        if (!GameOver)
+        {
+            lastLoseConditionRegistered = loseCondition;
+            GameOver = true;
+            canReload = true;
+            OnLose?.Invoke();
+
+            SoundManager.instance.StopInstance(crowd);
+        }
         
-        SoundManager.instance.StopInstance(crowd);
     }
 
     private void ReloadScene()
