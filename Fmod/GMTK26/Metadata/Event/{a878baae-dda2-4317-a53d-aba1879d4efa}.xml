@@ -254,7 +254,7 @@
 		</relationship>
 		<relationship name="automationPoints">
 			<destination>{49683b90-648c-4a17-8266-cc3909377221}</destination>
-			<destination>{32c5954c-0e49-4346-bc81-bfd87dbf0d34}</destination>
+			<destination>{76d8d2b9-6522-4e82-b105-02b4277f2121}</destination>
 		</relationship>
 	</object>
 	<object class="MultibandEqEffect" id="{30e032a9-1bca-49f4-8655-85b8829ee385}">
@@ -294,18 +294,18 @@
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>-12</value>
+			<value>-15</value>
 		</property>
 		<property name="curveShape">
 			<value>-1</value>
 		</property>
 	</object>
-	<object class="AutomationPoint" id="{32c5954c-0e49-4346-bc81-bfd87dbf0d34}">
+	<object class="AutomationPoint" id="{76d8d2b9-6522-4e82-b105-02b4277f2121}">
 		<property name="position">
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>-6</value>
+			<value>-9</value>
 		</property>
 	</object>
 	<object class="Automator" id="{c051dcfe-e987-4dfc-9e1c-250a1ad59d32}">
