@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e87542ae7294b96b190bd1c5bc5a02e, type: 3}
   m_Name: Intercepteur
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 2.85
   directionInterpolationSpeed: 2.5
   idleMoveRadius: 2
   zoneRadius: 0.5
