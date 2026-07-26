@@ -269,6 +269,8 @@ public class Ball : MonoBehaviour
 
     public Vector3 Velocity()
     {
-        return velocity;
+        if (velocity != Vector3.zero)
+            return velocity;
+        return (Goal.instance.transform.position - UnitHoldingIt.transform.position).normalized * realInitialVelocity;
     }
 }

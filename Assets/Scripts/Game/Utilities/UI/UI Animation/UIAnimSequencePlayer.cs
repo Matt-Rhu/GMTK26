@@ -64,8 +64,7 @@ public abstract class UIAnimSequencePlayer : UIAnimations
     {
         if(ongoingSequences.Count == 0) return;
         //if(ignoreSkipsIfPaused && GameManager.instance.PauseOrFreecam()) return;
-
-        bool stoppedSound = false;
+        
         List<int> toRemove = new List<int>();
         foreach (var oseq in ongoingSequences)
         {
@@ -76,7 +75,6 @@ public abstract class UIAnimSequencePlayer : UIAnimations
             if (oseq.Value.sound != null)
             {
                 SoundManager.instance.StopInstance(oseq.Value.sound);
-                stoppedSound = true;
             }
             toRemove.Add(oseq.Key);
         }
