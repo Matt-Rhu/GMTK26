@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
             SoundManager.instance.SetInstanceParameter(music, 1);
         
         if (amount > 0)
-            RuntimeManager.PlayOneShot(scoreCheer.Ref);
+            SoundManager.instance.PlayOneShotWithParameter(scoreCheer, amount);
     }
 
     public void ToggleTacticalPause()
