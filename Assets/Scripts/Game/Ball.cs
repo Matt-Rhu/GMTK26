@@ -33,6 +33,7 @@ public class Ball : MonoBehaviour
     [FoldHeader("Sounds")] 
     [SerializeField] private SoundReference crowd;
     [SerializeField] private SoundReference bounce;
+    private Coroutine cheerCoroutine;
 
     private float defaultScale = 0f;
     private float realInitialVelocity = 10f;
@@ -195,7 +196,10 @@ public class Ball : MonoBehaviour
         BallScore = score;
 
         if (score <= 0) return;
-        StartCoroutine(SetCrowdCheer());
+        
+        if (cheerCoroutine != null)
+            StopCoroutine(cheerCoroutine);
+        cheerCoroutine = StartCoroutine(SetCrowdCheer());
     }
 
     private IEnumerator SetCrowdCheer()
@@ -203,6 +207,8 @@ public class Ball : MonoBehaviour
         SoundManager.instance.SetInstanceParameter(crowd, 1);
         yield return new WaitForSeconds(5);
         SoundManager.instance.SetInstanceParameter(crowd, 0);
+
+        cheerCoroutine = null;
     }
 
 

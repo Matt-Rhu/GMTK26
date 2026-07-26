@@ -4,6 +4,9 @@
 		<property name="note">
 			<value>plus fort quand tactical pause</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Music</value>
 		</property>
@@ -299,7 +302,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>0</value>
+			<value>-3</value>
 		</property>
 	</object>
 	<object class="Automator" id="{c051dcfe-e987-4dfc-9e1c-250a1ad59d32}">

@@ -47,7 +47,6 @@ public class PlayerUnit : UnitBase
         int result = 0;
         Ray raycast = new Ray(transform.position, Vector3.down);
         RaycastHit[] raycastHits = Physics.RaycastAll(raycast, Mathf.Infinity, LayerMask.GetMask("ScoreZone"));
-        print(raycastHits);
         foreach (RaycastHit raycastHit in raycastHits)
         {
             if (raycastHit.transform != null)

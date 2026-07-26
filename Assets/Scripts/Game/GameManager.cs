@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour
         mainCamera.EnterLevelZoom(zoomInDuration);
         StartCoroutine(StartDelay());
         SoundManager.instance.StartInstance(crowd);
+        SoundManager.instance.SetInstanceParameter(crowd, 0);
+        SoundManager.instance.SetInstanceParameter(music, 0);
     }
 
     private void Update()
