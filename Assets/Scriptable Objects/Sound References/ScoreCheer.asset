@@ -20,4 +20,5 @@ MonoBehaviour:
       Data3: -851824451
       Data4: -1030559742
     Path: event:/ScoreCheer
-  parameters: []
+  parameters:
+  - Score
