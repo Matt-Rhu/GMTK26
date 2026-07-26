@@ -9,6 +9,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public enum LoseCondition
+    {
+        BallOut,
+        BallCaptured,
+        ScoreInsuficent
+    }
+
+    public LoseCondition lastLoseConditionRegistered;
     public bool GameStarted { get; private set; }
     public bool TacticalPause { get; private set; }
     private bool outOfTime;
@@ -149,7 +157,7 @@ public class GameManager : MonoBehaviour
         if (PlayerScore > OpponentScore)
             Win();
         else
-            Lose();
+            Lose(LoseCondition.ScoreInsuficent);
     }
     
     public void Win()
@@ -161,8 +169,9 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.SetInstanceParameter(crowd, 1);
     }
 
-    public void Lose()
+    public void Lose(LoseCondition loseCondition)
     {
+        lastLoseConditionRegistered = loseCondition;
         GameOver = true;
         canReload = true;
         OnLose?.Invoke();

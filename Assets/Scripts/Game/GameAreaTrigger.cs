@@ -9,7 +9,7 @@ public class GameAreaTrigger : MonoBehaviour
     {
         if (other.transform.gameObject.TryGetComponent(out Ball ball))
         {
-            GameManager.instance.Lose();
+            GameManager.instance.Lose(GameManager.LoseCondition.BallOut);
         }
     }
 }

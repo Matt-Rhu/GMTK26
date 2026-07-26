@@ -116,7 +116,7 @@ public abstract class UnitBase : MonoBehaviour
         RuntimeManager.PlayOneShot(data.grabSound.Ref);
         
         if (data.isOpponent)
-            GameManager.instance.Lose();
+            GameManager.instance.Lose(GameManager.LoseCondition.BallCaptured);
     }
     
     private bool BallInGrabZone()
