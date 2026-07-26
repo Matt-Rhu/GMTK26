@@ -40,7 +40,11 @@ public class Ball : MonoBehaviour
     private void Awake()
     {
         defaultScale = ballSprite.transform.localScale.x;
+#if UNITY_EDITOR
         realInitialVelocity = 3 * InitialVelocity;
+#else
+        realInitialVelocity = InitialVelocity;
+#endif
         instance = this;
     }
 

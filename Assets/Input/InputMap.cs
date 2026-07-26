@@ -53,6 +53,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""f73047cb-4603-4ce1-9377-7aee95c3ee35"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -99,6 +108,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab9745fa-b755-4191-a04e-217912f208eb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -110,6 +130,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_Gameplay_ToggleTacticalPause = m_Gameplay.FindAction("ToggleTacticalPause", throwIfNotFound: true);
         m_Gameplay_Select = m_Gameplay.FindAction("Select", throwIfNotFound: true);
         m_Gameplay_Reload = m_Gameplay.FindAction("Reload", throwIfNotFound: true);
+        m_Gameplay_Quit = m_Gameplay.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -174,6 +195,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ToggleTacticalPause;
     private readonly InputAction m_Gameplay_Select;
     private readonly InputAction m_Gameplay_Reload;
+    private readonly InputAction m_Gameplay_Quit;
     public struct GameplayActions
     {
         private @InputMap m_Wrapper;
@@ -181,6 +203,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @ToggleTacticalPause => m_Wrapper.m_Gameplay_ToggleTacticalPause;
         public InputAction @Select => m_Wrapper.m_Gameplay_Select;
         public InputAction @Reload => m_Wrapper.m_Gameplay_Reload;
+        public InputAction @Quit => m_Wrapper.m_Gameplay_Quit;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -199,6 +222,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @Quit.started += instance.OnQuit;
+            @Quit.performed += instance.OnQuit;
+            @Quit.canceled += instance.OnQuit;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -212,6 +238,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @Quit.started -= instance.OnQuit;
+            @Quit.performed -= instance.OnQuit;
+            @Quit.canceled -= instance.OnQuit;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -234,5 +263,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnToggleTacticalPause(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

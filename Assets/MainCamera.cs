@@ -7,10 +7,10 @@ public class MainCamera : MonoBehaviour
 
     [Header("Enter Level Zoom")]
     [SerializeField] private Ease.Type easing;
-    [SerializeField] private float zoomStart = 12f;
-    [SerializeField] private float zoomEnd = 10f;
+    [SerializeField] private float zoomStart = 30f;
+    [SerializeField] private float zoomEnd = 10.8f;
 
-    private float enterLevelZoomDuration = 1f;
+    private float enterLevelZoomDuration = 2f;
     private bool processEnterLevelZoom = false;
     private float processEnterLevelProgress = 0f;
 
