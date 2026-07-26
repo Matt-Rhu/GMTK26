@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 636098871954908838}
   - component: {fileID: 636098871954908839}
   - component: {fileID: 636098871954908856}
+  - component: {fileID: -6203739831781886374}
   m_Layer: 10
-  m_Name: Sweetspot
+  m_Name: SweetspotSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e2108e0a0e136d54b9351f8df3d6eb55, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e6668d9c15dc9d4d914c27c0897da0a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,4 +98,17 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.38
-  m_Center: {x: 0, y: 0, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 1}
+--- !u!114 &-6203739831781886374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636098871954908857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a6dfd95d903f74c8db60ccec89adbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 5
