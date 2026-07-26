@@ -200,9 +200,9 @@ public class Ball : MonoBehaviour
 
     private IEnumerator SetCrowdCheer()
     {
-        SoundManager.instance.SetInstanceParameter(crowd, 1, 1);
+        SoundManager.instance.SetInstanceParameter(crowd, 1);
         yield return new WaitForSeconds(5);
-        SoundManager.instance.SetInstanceParameter(crowd, 1, 0);
+        SoundManager.instance.SetInstanceParameter(crowd, 0);
     }
 
 

@@ -42,7 +42,7 @@ public class CommandManager : MonoBehaviour
     {
         TryDeselectSelectedUnit();
         
-        SoundManager.instance.SetGlobalParameter(crowd.parameters[0], isPaused ? 1 : 0);
+        SoundManager.instance.SetGlobalParameter("AmbienceFade", isPaused ? 1 : 0);
 
         if (isPaused)
         {
@@ -51,7 +51,7 @@ public class CommandManager : MonoBehaviour
         }
         else
         {
-            RuntimeManager.PlayOneShot(pauseEnd.Ref);
+            //RuntimeManager.PlayOneShot(pauseEnd.Ref);
         }
     }
 

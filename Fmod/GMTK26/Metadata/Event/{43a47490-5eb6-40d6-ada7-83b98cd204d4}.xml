@@ -103,6 +103,9 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<destination>{04f04700-8353-41ae-bf56-7f351f40102d}</destination>
 			<destination>{3045d38a-2826-4858-8f68-7528ae9c1a52}</destination>
 		</relationship>
+		<relationship name="markers">
+			<destination>{444b5219-e121-491c-90e9-d935edc3b990}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{6f4bf9f7-8989-4c05-8fbd-c77093b4bac6}">
 		<relationship name="automators">
@@ -221,6 +224,20 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 		</relationship>
 		<relationship name="output">
 			<destination>{6f4bf9f7-8989-4c05-8fbd-c77093b4bac6}</destination>
+		</relationship>
+	</object>
+	<object class="LoopRegion" id="{444b5219-e121-491c-90e9-d935edc3b990}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="length">
+			<value>66.533854875283453</value>
+		</property>
+		<relationship name="timeline">
+			<destination>{786c3d11-dcbc-491b-a068-3d4dd09709b5}</destination>
+		</relationship>
+		<relationship name="markerTrack">
+			<destination>{4cebae88-0e34-4001-8ce6-6b8c19e04b87}</destination>
 		</relationship>
 	</object>
 	<object class="Automator" id="{5bcc1140-3a12-4251-8709-648206787293}">

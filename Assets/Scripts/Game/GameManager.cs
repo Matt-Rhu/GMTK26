@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
         get => outOfTime;
         private set
         {
-            if (outOfTime != value)
-                RuntimeManager.PlayOneShot(buzzer.Ref);
+            if (outOfTime != value && value)
+                OnTimerEnd();
             outOfTime = value;
         }
     }
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoundReference whistle;
     [SerializeField] private SoundReference buzzer;
     [SerializeField] private SoundReference crowd;
+    [SerializeField] private SoundReference music;
 
     public delegate void SimpleEvent();
     public event SimpleEvent OnLose;
@@ -68,8 +69,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartLevel();
-        
-        SoundManager.instance.StartInstance(crowd);
     }
 
     private void StartLevel()
@@ -78,6 +77,7 @@ public class GameManager : MonoBehaviour
         GameOver = false;
         mainCamera.EnterLevelZoom(zoomInDuration);
         StartCoroutine(StartDelay());
+        SoundManager.instance.StartInstance(crowd);
     }
 
     private void Update()
@@ -88,16 +88,15 @@ public class GameManager : MonoBehaviour
         if (TacticalPause) return;
         RemainingTime -= Time.deltaTime;
         RemainingTime = Mathf.Clamp(RemainingTime, 0, Mathf.Infinity);
+        
+        
+        if (!Ball.instance) return;
         if (RemainingTime <= 0)
         {
             OutOfTime = true;
 
-            if (!Ball.instance) return;
-            // If Time is over, you do not as long as the ball is in shot (can still win).
-            if (Ball.instance.CurrentState != Ball.BallState.Shot)
-            {
-                Lose();
-            }
+            if (Ball.instance.CurrentState == Ball.BallState.Shot) return;
+            CheckScore();
         }
     }
 
@@ -107,6 +106,8 @@ public class GameManager : MonoBehaviour
         
         GameStarted = true;
         RuntimeManager.PlayOneShot(whistle.Ref);
+        SoundManager.instance.StartInstance(music);
+        SoundManager.instance.SetInstanceParameter(music, 0);
     }
     
     public void InitializeFromStartPositionDatas(float remainingTime, int playerStartScore, int opponentStartScore, int inZoneScore, int outZoneScore)
@@ -122,7 +123,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerScore += amount;
         if (PlayerScore > OpponentScore)
-            Win();
+            SoundManager.instance.SetInstanceParameter(music, 1);
     }
 
     public void ToggleTacticalPause()
@@ -134,12 +135,28 @@ public class GameManager : MonoBehaviour
         TacticalPause = !TacticalPause;
         OnTacticalPause?.Invoke(TacticalPause);
     }
+
+    private void OnTimerEnd()
+    {
+        RuntimeManager.PlayOneShot(buzzer.Ref);
+        SoundManager.instance.StopInstance(music);
+    }
+
+    private void CheckScore()
+    {
+        if (PlayerScore > OpponentScore)
+            Win();
+        else
+            Lose();
+    }
     
     public void Win()
     {
         GameOver = true;
         canReload = true;
-        OnWin?.Invoke();  
+        OnWin?.Invoke(); 
+        
+        SoundManager.instance.SetInstanceParameter(crowd, 1);
     }
 
     public void Lose()
@@ -147,6 +164,8 @@ public class GameManager : MonoBehaviour
         GameOver = true;
         canReload = true;
         OnLose?.Invoke();
+        
+        SoundManager.instance.StopInstance(crowd);
     }
 
     private void ReloadScene()

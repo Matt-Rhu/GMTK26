@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc05f6a4cc6cade4c8283a6f12fedfe4, type: 3}
-  m_Name: Crowd
+  m_Name: Music
   m_EditorClassIdentifier: 
-  name: Crowd
+  name: Music
   Ref:
     Guid:
-      Data1: 1134851216
-      Data2: 1087790774
-      Data3: -1182554195
-      Data4: -737881460
-    Path: event:/Ambience/Crowd
+      Data1: -1468482898
+      Data2: 1125637538
+      Data3: -1582613083
+      Data4: -95511161
+    Path: event:/Music
   parameters:
-  - CrowdCheering
+  - Trumpets

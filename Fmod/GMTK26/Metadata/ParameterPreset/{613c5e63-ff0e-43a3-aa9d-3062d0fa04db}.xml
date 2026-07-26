@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{613c5e63-ff0e-43a3-aa9d-3062d0fa04db}">
+		<property name="name">
+			<value>Trumpets</value>
+		</property>
+		<relationship name="folder">
+			<destination>{94286a9e-e47a-495f-a293-a1278cfcce9a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{2e5dd4a2-b1ba-47c8-89b7-75b6c875d671}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{2e5dd4a2-b1ba-47c8-89b7-75b6c875d671}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>0.14999999105930328</value>
+		</property>
+	</object>
+</objects>
