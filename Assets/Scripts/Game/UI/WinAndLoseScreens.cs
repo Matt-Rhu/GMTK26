@@ -19,7 +19,7 @@ public class WinAndLoseScreens : MonoBehaviour
     private void Win()
     {
         winText.text = "You came up clutch in money time. The glory is yours !";
-        winScore.text = GameManager.instance.PlayerScore.ToString() + " - " + GameManager.instance.OpponentScore.ToString();
+        winScore.text = GameManager.instance.PlayerScore.ToString() + "      " + GameManager.instance.OpponentScore.ToString();
         winScreen.SetActive(true);
     }
 
@@ -37,7 +37,7 @@ public class WinAndLoseScreens : MonoBehaviour
                 break;
             case GameManager.LoseCondition.ScoreInsuficent:
                 loseConditionText = "Buzzer. Time's up, and you came up short.";
-                loseScoreText = GameManager.instance.PlayerScore.ToString() + " - " + GameManager.instance.OpponentScore.ToString();
+                loseScoreText = GameManager.instance.PlayerScore.ToString() + "      " + GameManager.instance.OpponentScore.ToString();
                 break;
         }
         loseText.text = loseConditionText;
