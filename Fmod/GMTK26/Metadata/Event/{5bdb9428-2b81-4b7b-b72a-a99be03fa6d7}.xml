@@ -5,6 +5,9 @@
 			<value>on score
 peut-être essayer une gradation en fonction du score</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Hoop</value>
 		</property>

@@ -4,6 +4,9 @@
 		<property name="note">
 			<value>quand attrape la balle</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Catch</value>
 		</property>
@@ -59,7 +62,11 @@
 			<destination>{69358a25-e56e-4afc-b91d-a9f1640e15f3}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{55e764c7-f6b0-4ef1-802f-d49fef29ce3f}" />
+	<object class="EventAutomatableProperties" id="{55e764c7-f6b0-4ef1-802f-d49fef29ce3f}">
+		<property name="triggerCooldown">
+			<value>20</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{28422936-bb7d-42f0-b515-39a25ea8e6a9}" />
 	<object class="GroupTrack" id="{a81624fd-b6d6-4292-9182-1623457e2f37}">
 		<relationship name="modules">
@@ -75,6 +82,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{d9c7f66a-9e55-4b92-95a6-e95bc40e4b0c}">
+		<property name="volume">
+			<value>-2.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{dbe355aa-a4f9-4a49-9971-f9c42cda4582}</destination>
 		</relationship>
@@ -92,6 +102,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{90d9c3c9-a0a3-4a24-99a8-4baabb66491c}" />
 	<object class="MultiSound" id="{10ba6a53-17c1-4232-9ea0-60531f11c06e}">
+		<property name="triggerProbability">
+			<value>50</value>
+		</property>
 		<property name="isAsync">
 			<value>true</value>
 		</property>
@@ -121,6 +134,7 @@
 	<object class="MixerBusEffectChain" id="{dbe355aa-a4f9-4a49-9971-f9c42cda4582}">
 		<relationship name="effects">
 			<destination>{0de8cb9c-44d0-48a5-ac36-258a574c7ebd}</destination>
+			<destination>{d82ab55d-beed-4f37-8eb7-e7c7f7271f82}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{93ec9c16-683f-4e93-885a-e221b942b250}" />
@@ -147,5 +161,13 @@
 	</object>
 	<object class="MixerBusPanner" id="{93e64e14-b671-42f0-b854-626e303e4f20}" />
 	<object class="MixerBusFader" id="{0de8cb9c-44d0-48a5-ac36-258a574c7ebd}" />
+	<object class="SFXReverbEffect" id="{d82ab55d-beed-4f37-8eb7-e7c7f7271f82}">
+		<property name="decayTime">
+			<value>1100</value>
+		</property>
+		<property name="earlyDelay">
+			<value>40</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{711a4982-96dd-4707-9e0d-df352ceb42db}" />
 </objects>

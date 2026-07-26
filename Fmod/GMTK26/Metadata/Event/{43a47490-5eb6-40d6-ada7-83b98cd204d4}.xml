@@ -5,6 +5,9 @@
 			<value>étouffé quand tactical pause
 crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Crowd</value>
 		</property>
@@ -425,7 +428,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>0</value>
+			<value>-2</value>
 		</property>
 		<property name="curveShape">
 			<value>0.226943359</value>
@@ -436,7 +439,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>-8</value>
+			<value>-10</value>
 		</property>
 	</object>
 	<object class="Automator" id="{f763ee8c-7cb3-4387-86fb-343f87839b6b}">
@@ -463,7 +466,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-28</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{13c04270-4352-447f-a700-c64d3a7ccc65}">
@@ -482,7 +485,7 @@ crowd tout le temps, fade vers cheering quand tire vers le panier</value>
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>0</value>
+			<value>6</value>
 		</property>
 	</object>
 	<object class="AutomationCurve" id="{a3365fd2-5271-40b4-a5a7-c6a5dde68c4f}">

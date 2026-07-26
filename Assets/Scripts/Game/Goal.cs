@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class Goal : MonoBehaviour
@@ -8,6 +9,10 @@ public class Goal : MonoBehaviour
     public static Goal instance;
 
     [SerializeField] private float ballSpeedReduction = 0.3f;
+    
+    [FoldHeader("Sounds")]
+    [SerializeField] private SoundReference hoop;
+    [SerializeField] private SoundReference miss;
 
     private void Awake()
     {
@@ -19,7 +24,14 @@ public class Goal : MonoBehaviour
         if (!other.CompareTag("Ball")) return;
         
         SendBallBack();
-        GameManager.instance.AddScore(Ball.instance.BallScore);
+
+        var score = Ball.instance.BallScore;
+        GameManager.instance.AddScore(score);
+
+        if (score > 0)
+            RuntimeManager.PlayOneShot(hoop.Ref);
+        else
+            RuntimeManager.PlayOneShot(miss.Ref);
     }
 
     private void SendBallBack()

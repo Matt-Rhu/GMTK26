@@ -59,6 +59,8 @@ MonoBehaviour:
   InitialVelocity: 10
   speedReductionFactorOnLanding: 1.5
   distanceReductionFactorOnLanding: 2.2
+  crowd: {fileID: 11400000, guid: c92fc4f74a4fc3a499264f426aa81e51, type: 2}
+  bounce: {fileID: 11400000, guid: f9ead8706b59d5a4d958587b9ad069f1, type: 2}
 --- !u!135 &5178752523461371092
 SphereCollider:
   m_ObjectHideFlags: 0

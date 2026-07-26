@@ -4,6 +4,9 @@
 		<property name="note">
 			<value>démarrage de partie et retour de tactical pause</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Whistle</value>
 		</property>
@@ -106,10 +109,10 @@
 	<object class="MixerBusPanner" id="{0b3aacf6-93bc-4237-8abd-65b0e8f03924}" />
 	<object class="SingleSound" id="{ab90b38b-1d06-4533-9318-0471e5dfb91e}">
 		<property name="length">
-			<value>0.38</value>
+			<value>0.35999999999999999</value>
 		</property>
 		<property name="timelockedOffset">
-			<value>0.040000000000000001</value>
+			<value>0.059999999999999998</value>
 		</property>
 		<relationship name="audioFile">
 			<destination>{334d1e03-521d-4dee-bfb4-52d401a0a182}</destination>
@@ -131,7 +134,7 @@
 	</object>
 	<object class="SingleSound" id="{bf5a70ee-2989-47ac-9d7d-7534491deee8}">
 		<property name="start">
-			<value>0.32000000000000001</value>
+			<value>0.29999999999999999</value>
 		</property>
 		<property name="length">
 			<value>0.86154195011337831</value>

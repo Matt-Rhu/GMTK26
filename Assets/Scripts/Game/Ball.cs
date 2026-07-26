@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -29,6 +30,9 @@ public class Ball : MonoBehaviour
     [SerializeField] private float speedReductionFactorOnLanding = 2f;
     [SerializeField] private float distanceReductionFactorOnLanding = 1.4f;
 
+    [FoldHeader("Sounds")] 
+    [SerializeField] private SoundReference crowd;
+    [SerializeField] private SoundReference bounce;
 
     private float defaultScale = 0f;
     private float realInitialVelocity = 10f;
@@ -116,7 +120,7 @@ public class Ball : MonoBehaviour
     {
         Vector3 unitHoldingBallDirection = (UnitHoldingIt.GetTarget() - UnitHoldingIt.transform.position).normalized * 1.0f;
         transform.position = UnitHoldingIt.transform.position + unitHoldingBallDirection;
-        float parabolProgress = 1.0f - ParabolicInterpolation(Mathf.Repeat(Time.realtimeSinceStartup * 4.0f, 1.0f));
+        float parabolProgress = 1.0f - ParabolicInterpolation(Mathf.Repeat(Time.realtimeSinceStartup * 3.5f, 1.0f));
         ballSprite.transform.localScale = Vector3.one * (defaultScale - parabolProgress * defaultScale / 3.0f);
     }
 
@@ -158,6 +162,9 @@ public class Ball : MonoBehaviour
 
     private float ParabolicInterpolation(float x)
     {
+        if (x < 0.03f)
+            RuntimeManager.PlayOneShot(bounce.Ref);
+        
         float minReturnValue = 0f;
         float maxReturnValue = 1f;
         // Remap input value depending on the state.
@@ -173,7 +180,7 @@ public class Ball : MonoBehaviour
         }
         if (x < 0) { return minReturnValue; }
         if (x > 1) { return maxReturnValue; }
-
+        
         return 4 * x * (1 - x);
     }
 
@@ -186,6 +193,16 @@ public class Ball : MonoBehaviour
         ChangeState(BallState.Shot);
 
         BallScore = score;
+
+        if (score <= 0) return;
+        StartCoroutine(SetCrowdCheer());
+    }
+
+    private IEnumerator SetCrowdCheer()
+    {
+        SoundManager.instance.SetInstanceParameter(crowd, 1, 1);
+        yield return new WaitForSeconds(5);
+        SoundManager.instance.SetInstanceParameter(crowd, 1, 0);
     }
 
 

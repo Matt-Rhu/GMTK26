@@ -4,6 +4,9 @@
 		<property name="note">
 			<value>quand le balon tape le sol, dans ball.cs</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>Bounce</value>
 		</property>
@@ -59,7 +62,14 @@
 			<destination>{69358a25-e56e-4afc-b91d-a9f1640e15f3}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{2fa03778-46c6-4283-a492-f78b82a3a8a3}" />
+	<object class="EventAutomatableProperties" id="{2fa03778-46c6-4283-a492-f78b82a3a8a3}">
+		<property name="maxVoices">
+			<value>1</value>
+		</property>
+		<property name="triggerCooldown">
+			<value>200</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{a6ab0eda-a949-490d-ada2-3acf82aca6f2}" />
 	<object class="GroupTrack" id="{64a8fcdc-7ada-4c8c-83be-078c8f8ba3c1}">
 		<relationship name="modules">
@@ -76,8 +86,11 @@
 	</object>
 	<object class="EventMixerMaster" id="{3f2ea6af-a74d-4381-b57c-aaf02026395d}">
 		<property name="volume">
-			<value>-5</value>
+			<value>-10.5</value>
 		</property>
+		<relationship name="modulators">
+			<destination>{0d976818-afe7-4251-b2d1-8b8f568fe60d}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{4e33b5a4-8190-49c4-a3ab-a0859a831884}</destination>
 		</relationship>
@@ -120,6 +133,14 @@
 		<relationship name="output">
 			<destination>{3f2ea6af-a74d-4381-b57c-aaf02026395d}</destination>
 		</relationship>
+	</object>
+	<object class="RandomizerModulator" id="{0d976818-afe7-4251-b2d1-8b8f568fe60d}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>volume</value>
+		</property>
+		<property name="amount">
+			<value>8</value>
+		</property>
 	</object>
 	<object class="MixerBusEffectChain" id="{4e33b5a4-8190-49c4-a3ab-a0859a831884}">
 		<relationship name="effects">

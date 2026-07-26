@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,17 @@ public class GameManager : MonoBehaviour
 
     public bool GameStarted { get; private set; }
     public bool TacticalPause { get; private set; }
-    public bool OutOfTime { get; private set; }
+    private bool outOfTime;
+    public bool OutOfTime
+    {
+        get => outOfTime;
+        private set
+        {
+            if (outOfTime != value)
+                RuntimeManager.PlayOneShot(buzzer.Ref);
+            outOfTime = value;
+        }
+    }
     
     public bool GameOver { get; private set; }
     public float RemainingTime { get; private set; }
@@ -29,14 +40,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float timeBeforeGameStartAfterZoom = 1f;
     [SerializeField] private bool startWithTutorial = false;
 
+    [FoldHeader("Sounds")] 
+    [SerializeField] private SoundReference whistle;
+    [SerializeField] private SoundReference buzzer;
+    [SerializeField] private SoundReference crowd;
+
     public delegate void SimpleEvent();
     public event SimpleEvent OnLose;
     public event SimpleEvent OnWin;
     
     public delegate void TacticalPauseEvent(bool pauseOn);
     public event TacticalPauseEvent OnTacticalPause;
-
-
+    
     private bool canReload;
     private float startGameTimer = 0f;
     
@@ -53,6 +68,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartLevel();
+        
+        SoundManager.instance.StartInstance(crowd);
     }
 
     private void StartLevel()
@@ -60,12 +77,13 @@ public class GameManager : MonoBehaviour
         GameStarted = false;
         GameOver = false;
         mainCamera.EnterLevelZoom(zoomInDuration);
+        StartCoroutine(StartDelay());
     }
 
     private void Update()
     {
         // To not do anything before the game start.
-        if (processIdleBeforeGameStarted()) return;
+        if (!GameStarted) return;
 
         if (TacticalPause) return;
         RemainingTime -= Time.deltaTime;
@@ -73,6 +91,8 @@ public class GameManager : MonoBehaviour
         if (RemainingTime <= 0)
         {
             OutOfTime = true;
+
+            if (!Ball.instance) return;
             // If Time is over, you do not as long as the ball is in shot (can still win).
             if (Ball.instance.CurrentState != Ball.BallState.Shot)
             {
@@ -81,19 +101,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool processIdleBeforeGameStarted()
+    private IEnumerator StartDelay()
     {
-        if (startGameTimer > 0f)
-        {
-            GameStarted = false;
-            startGameTimer -= Time.deltaTime;
-        } else
-        {
-            GameStarted = true;
-        }
-        return !GameStarted;
+        yield return new WaitForSeconds(startGameTimer);
         
+        GameStarted = true;
+        RuntimeManager.PlayOneShot(whistle.Ref);
     }
+    
     public void InitializeFromStartPositionDatas(float remainingTime, int playerStartScore, int opponentStartScore, int inZoneScore, int outZoneScore)
     {
         RemainingTime = remainingTime;

@@ -81,3 +81,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  grabSound: {fileID: 11400000, guid: b610181734a91b645972ee372e769207, type: 2}
+  squeakSound: {fileID: 11400000, guid: e73deeb4471ee5d4581f485089b65bad, type: 2}
+  squeakCooldown: 1.5
+  squeakThreshold: 0.75

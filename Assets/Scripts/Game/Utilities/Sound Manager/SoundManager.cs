@@ -13,8 +13,6 @@ public class SoundManager : DontDestroySingleton<SoundManager>
 {
     private Dictionary<string, EventInstance> sounds = new();
     [SerializeField] private List<string> instances = new();
-
-    [SerializeField] private SoundOnStart[] soundsOnSceneLoad;
     
     private int instanceIndex;
 
@@ -32,22 +30,7 @@ public class SoundManager : DontDestroySingleton<SoundManager>
         // SetGlobalParameter("var_music", Save.General.musicSoundSlider);
         // SetGlobalParameter("var_general", Save.General.generalSoundSlider);
     }
-
-    private void Start()
-    {
-        SceneManager.sceneLoaded += OnStart;
-        OnStart(SceneManager.GetActiveScene(), 0);
-    }
-
-    private void OnStart(Scene s, LoadSceneMode l)
-    {
-        if (l == LoadSceneMode.Single) return;
-        
-        foreach (var sos in soundsOnSceneLoad)
-            foreach (var sc in sos.scenes)
-                if (sc)
-                    StartInstance(sos.sound);
-    }
+    
 
     public void StartInstance(string instanceName, string path, Transform t = null)
     {

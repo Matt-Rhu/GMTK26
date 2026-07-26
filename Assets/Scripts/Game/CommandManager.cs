@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class CommandManager : MonoBehaviour
@@ -15,6 +16,14 @@ public class CommandManager : MonoBehaviour
     // [SerializeField] private ControlsMode controlsMode = ControlsMode.LEFT_CLICK_ONLY;
     [SerializeField] private float MouseDragStartDistanceThreshold = 32f;
 
+    [FoldHeader("Sounds")] 
+    [SerializeField] private SoundReference commandGiven;
+    [SerializeField] private SoundReference pauseStartHeartbeat;
+    [SerializeField] private SoundReference pauseStartChalk;
+    [SerializeField] private SoundReference pauseEnd;
+    [SerializeField] private SoundReference crowd;
+    
+
     private PlayerUnit selectedUnit;
     private bool dragging;
     private Vector3 potentialDraggingMouseStart = new Vector3(-9999, -9999, -9999);
@@ -26,7 +35,24 @@ public class CommandManager : MonoBehaviour
         Inputs.Gameplay.Select.started += _ => ProcessPressAction();
         Inputs.Gameplay.Select.canceled += _ => ProcessReleaseAction();
 
-        Inputs.Gameplay.ToggleTacticalPause.performed += _ => TryDeselectSelectedUnit();
+        GameManager.instance.OnTacticalPause += PauseToggle;
+    }
+
+    private void PauseToggle(bool isPaused)
+    {
+        TryDeselectSelectedUnit();
+        
+        SoundManager.instance.SetGlobalParameter(crowd.parameters[0], isPaused ? 1 : 0);
+
+        if (isPaused)
+        {
+            RuntimeManager.PlayOneShot(pauseStartChalk.Ref);
+            RuntimeManager.PlayOneShot(pauseStartHeartbeat.Ref);
+        }
+        else
+        {
+            RuntimeManager.PlayOneShot(pauseEnd.Ref);
+        }
     }
 
     private void Update()
@@ -98,6 +124,8 @@ public class CommandManager : MonoBehaviour
 
         PlayerUnit playerUnit = null;
         
+        RuntimeManager.PlayOneShot(commandGiven.Ref);
+        
         // Get release target.
         if (lastHoveredGameObject)
             lastHoveredGameObject.TryGetComponent(out playerUnit);
@@ -147,8 +175,6 @@ public class CommandManager : MonoBehaviour
             
             
         }
-
-        
     }
 
 

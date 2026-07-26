@@ -24,4 +24,10 @@ public class UnitData : ScriptableObject
     public Sprite sprite;
     public Gradient moveDisplayColour;
     [HideWithValue(nameof(isOpponent), true)] public Gradient throwDisplayColour;
+
+    [Header("Sounds")] 
+    public SoundReference grabSound;
+    public SoundReference squeakSound;
+    public float squeakCooldown = 2;
+    public float squeakThreshold = 0.5f;
 }

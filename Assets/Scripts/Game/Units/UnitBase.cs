@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public abstract class UnitBase : MonoBehaviour
@@ -15,6 +16,8 @@ public abstract class UnitBase : MonoBehaviour
     
     protected float timerBeforeCanGrabAgain = -99f;
     [HideInInspector] public bool hasBall;
+
+    private float squeakTimer;
 
 
     protected virtual void Start()
@@ -33,6 +36,8 @@ public abstract class UnitBase : MonoBehaviour
     
     protected virtual void Update()
     {
+        squeakTimer += Time.deltaTime;
+        
         if (!GameManager.instance.GameStarted) return;
 
         if (GameManager.instance.TacticalPause) return;
@@ -53,12 +58,17 @@ public abstract class UnitBase : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target) > data.zoneRadius * 0.5f)
         {
-            moveDir = Vector3.Lerp(moveDir, target - transform.position, Time.deltaTime * data.directionInterpolationSpeed);
+            var newdir = target - transform.position;
+            moveDir = Vector3.Lerp(moveDir, newdir, Time.deltaTime * data.directionInterpolationSpeed);
             transform.Translate(moveDir.normalized * (data.moveSpeed * Time.deltaTime));
+            
+            if (Vector3.Dot(moveDir, newdir) < data.squeakThreshold)
+                TryPlaySqueakSound();
         }
         else
             IdleAtTarget();
     }
+    
 
     protected virtual void IdleAtTarget()
     {
@@ -101,7 +111,9 @@ public abstract class UnitBase : MonoBehaviour
         if (GameManager.instance.GameOver) return;
         if (!BallInGrabZone()) return;
         if (!CanGrabBall()) return;
+        
         Ball.instance.Grab(this);
+        RuntimeManager.PlayOneShot(data.grabSound.Ref);
         
         if (data.isOpponent)
             GameManager.instance.Lose();
@@ -134,6 +146,15 @@ public abstract class UnitBase : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, data.zoneRadius);
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, data.ballSeekingRadius);
+    }
+
+
+    private void TryPlaySqueakSound()
+    {
+        if (squeakTimer <= data.squeakCooldown) return;
+        
+        squeakTimer = 0f;
+        RuntimeManager.PlayOneShot(data.squeakSound.Ref);
     }
 
 

@@ -4,6 +4,9 @@
 		<property name="note">
 			<value>on miss</value>
 		</property>
+		<property name="color">
+			<value>Blue Light 1</value>
+		</property>
 		<property name="name">
 			<value>HoopMiss</value>
 		</property>
@@ -93,10 +96,10 @@
 	<object class="MixerBusPanner" id="{970ca6c2-29d0-4765-b632-e841b9d7e3f8}" />
 	<object class="SingleSound" id="{c46acdde-d698-414c-a10a-3207fad31cc5}">
 		<property name="length">
-			<value>1.1097959183673467</value>
+			<value>1.0909348547300688</value>
 		</property>
 		<property name="timelockedOffset">
-			<value>0.32000000000000001</value>
+			<value>0.33886106363727775</value>
 		</property>
 		<relationship name="modulators">
 			<destination>{54e3bff3-3945-4cfc-866f-76531d30f3b4}</destination>
